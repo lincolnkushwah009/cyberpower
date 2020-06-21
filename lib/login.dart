@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'config/AppConfig.dart';
 import 'package:cyberpower/service/login_service.dart';
 import 'package:cyberpower/util/http_exception_dialog.dart';
+import 'package:cyberpower/home.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -58,11 +59,14 @@ class _LoginPageState extends State<LoginPage> {
             _loading = false;
           });
     } else {
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+
       
     }
   }
 
-  Widget _entryField(String title, {bool isPassword = false}) {
+  Widget _entryFieldEmail(String title, {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -72,20 +76,31 @@ class _LoginPageState extends State<LoginPage> {
             controller: loginEmailController,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          TextField(
-            controller: loginPasswordController,
-              obscureText: isPassword,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Color(0xfff3f3f4),
-                  filled: true))
         ],
       ),
     );
   }
+
+
+   Widget _entryFieldPassword(String title, {bool isPassword = false}) {
+     return Container(
+       margin: EdgeInsets.symmetric(vertical: 10),
+       child: Column(
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: <Widget>[
+
+           TextField(
+               controller: loginPasswordController,
+               obscureText: isPassword,
+               decoration: InputDecoration(
+                   border: InputBorder.none,
+                   fillColor: Color(0xfff3f3f4),
+                   filled: true))
+         ],
+       ),
+     );
+   }
+
 
   Widget _submitButton() {
     return Container(
@@ -130,8 +145,8 @@ class _LoginPageState extends State<LoginPage> {
   Widget _emailPasswordWidget() {
     return Column(
       children: <Widget>[
-        _entryField("Email id"),
-        _entryField("Password", isPassword: true),
+        _entryFieldEmail("Email id",),
+        _entryFieldPassword("Password", isPassword: true),
       ],
     );
   }
