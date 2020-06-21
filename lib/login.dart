@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'config/AppConfig.dart';
+import 'package:cyberpower/service/login_service.dart';
+import 'package:cyberpower/util/http_exception_dialog.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -11,6 +16,51 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+   TextEditingController loginEmailController = new TextEditingController();
+  TextEditingController loginPasswordController = new TextEditingController();
+   bool _loading = false;
+  final LoginService loginservice = new LoginService();
+
+   void userLogin(String userEmail, String userPassword) async {
+    
+
+    setState(() {
+      _loading = true;
+    });
+
+    var url = AppConfig.apiUrl + AppConfig.login;
+
+    Map<String, String> headers = {};
+    Map<String, String> body = {
+      'emailAddress' : userEmail,
+      'password' : userPassword
+    };
+
+    var data;
+
+    try {
+      data = await loginservice.getUserLogin(url, headers, body, context);
+    } catch(e) {
+      print('error caught: $e');
+    }
+
+    HttpExceptionDialog httpExceptionDialog = new HttpExceptionDialog();
+
+    if (data == null) {
+      httpExceptionDialog.showAlertDialog(context, "Http Request Failed.");
+    }
+
+    Map<String, dynamic> user = jsonDecode(data);
+    AppConfig.loginData = data;
+    if(user['errorMessage'] != null) { //// need to change things on this checkpoint
+          setState(() {
+            print("Login Failed");
+            _loading = false;
+          });
+    } else {
+      
+    }
+  }
 
   Widget _entryField(String title, {bool isPassword = false}) {
     return Container(
@@ -18,14 +68,15 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            title,
+          TextField(
+            controller: loginEmailController,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
           SizedBox(
             height: 10,
           ),
           TextField(
+            controller: loginPasswordController,
               obscureText: isPassword,
               decoration: InputDecoration(
                   border: InputBorder.none,
@@ -53,9 +104,14 @@ class _LoginPageState extends State<LoginPage> {
           ],
          color: Colors.red
       ),
-      child: Text(
-        'Login',
-        style: TextStyle(fontSize: 20, color: Colors.white),
+      child: GestureDetector(
+        onTap: (){
+           userLogin(loginEmailController.text,loginPasswordController.text);
+        },
+              child: Text(
+          'Login',
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
       ),
     );
   }
