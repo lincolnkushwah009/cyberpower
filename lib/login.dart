@@ -37,13 +37,21 @@ class _LoginPageState extends State<LoginPage> {
       'password' : userPassword
     };
 
+
     var data;
+    print(url);
+    print(body);
+    print(headers);
+    print(context);
+    print("All the data is coming here");
+
 
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
     } catch(e) {
       print('error caught: $e');
     }
+
 
     HttpExceptionDialog httpExceptionDialog = new HttpExceptionDialog();
 
@@ -58,6 +66,8 @@ class _LoginPageState extends State<LoginPage> {
             print("Login Failed");
             _loading = false;
           });
+          print("userrrr");
+          print(user);
     } else {
 
         Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
@@ -67,14 +77,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _entryFieldEmail(String title, {bool isPassword = false}) {
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextField(
+          TextFormField(
+            decoration: InputDecoration(
+              hintText: 'Email',
+              hintStyle: TextStyle(color: Colors.black),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  borderSide: BorderSide(color: Colors.grey)) ,
+
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  borderSide: BorderSide(color: Colors.black)),
+            ),
             controller: loginEmailController,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            style: TextStyle(fontSize: 15),
           ),
         ],
       ),
@@ -90,12 +112,23 @@ class _LoginPageState extends State<LoginPage> {
          children: <Widget>[
 
            TextField(
+               decoration: InputDecoration(
+                 hintText: 'Password',
+                 hintStyle: TextStyle(color: Colors.black),
+                 border: OutlineInputBorder(
+                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                     borderSide: BorderSide(color: Colors.grey)) ,
+
+                 focusedBorder: OutlineInputBorder(
+                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                     borderSide: BorderSide(color: Colors.black)),
+               ),
+
                controller: loginPasswordController,
                obscureText: isPassword,
-               decoration: InputDecoration(
-                   border: InputBorder.none,
-                   fillColor: Color(0xfff3f3f4),
-                   filled: true))
+             style: TextStyle( fontSize: 15),
+
+           )
          ],
        ),
      );
@@ -122,7 +155,11 @@ class _LoginPageState extends State<LoginPage> {
       child: GestureDetector(
         onTap: (){
            userLogin(loginEmailController.text,loginPasswordController.text);
+           print(loginEmailController.text);
+           print(loginPasswordController.text);
+           print("dataaaaaaaaaaaaaaaaa");
         },
+
               child: Text(
           'Login',
           style: TextStyle(fontSize: 20, color: Colors.white),
