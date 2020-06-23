@@ -31,7 +31,8 @@ class _LoginPageState extends State<LoginPage> {
 
     var url = AppConfig.apiUrl + AppConfig.login;
 
-    Map<String, String> headers = {};
+    Map<String, String> headers = {
+    };
     Map<String, String> body = {
       'emailAddress' : userEmail,
       'password' : userPassword
@@ -48,10 +49,13 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
+      data = await data.transform(utf8.decoder).join();
     } catch(e) {
       print('not working');
       print('error caught: $e');
     }
+
+    print(data);
 
 
     HttpExceptionDialog httpExceptionDialog = new HttpExceptionDialog();
@@ -62,20 +66,21 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     Map<String, dynamic> user = jsonDecode(data);
-    AppConfig.loginData = data;
-    if(user['errorMessage'] != null) { //// need to change things on this checkpoint
-          setState(() {
-            print("Login Failed");
-            _loading = false;
-          });
-          print("userrrr");
-          print(user);
-    } else {
+    print(user);
+    // AppConfig.loginData = data;
+    // if(user['errorMessage'] != null) { //// need to change things on this checkpoint
+    //       setState(() {
+    //         print("Login Failed");
+    //         _loading = false;
+    //       });
+    //       print("userrrr");
+    //       print(user);
+    // } else {
 
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    //     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
 
       
-    }
+    // }
   }
 
   Widget _entryFieldEmail(String title, {bool isPassword = false}) {

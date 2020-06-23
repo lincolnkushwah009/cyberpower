@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:cyberpower/service/http_call_service.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 
 class LoginService {
@@ -12,7 +14,13 @@ class LoginService {
     var response;
 
     try {
-      response = await httpservice.httpPost(url, headers, body, context);
+      HttpClient httpClient = new HttpClient();
+      HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+      request.headers.set('content-type', 'application/json');
+      request.add(utf8.encode(json.encode(body)));
+      response = await request.close();
+      // todo - you should check the response.statusCode
+      httpClient.close();
     } catch(e) {
       rethrow;
     }
