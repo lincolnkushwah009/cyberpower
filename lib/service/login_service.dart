@@ -16,7 +16,6 @@ class LoginService {
     } catch(e) {
       rethrow;
     }
-
     return response;
   }
 }

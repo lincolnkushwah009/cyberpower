@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
     } catch(e) {
+      print('not working');
       print('error caught: $e');
     }
 
@@ -56,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
     HttpExceptionDialog httpExceptionDialog = new HttpExceptionDialog();
 
     if (data == null) {
+      print("the error is coming here");
       httpExceptionDialog.showAlertDialog(context, "Http Request Failed.");
     }
 
@@ -170,11 +172,14 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
-
-
   Widget _logo() {
     return Container(
-      child: Image.asset("images/cyberpower-logo.jpg",height: 200,width: 200,),
+      child: InkWell(
+        onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+
+        },
+          child: Image.asset("images/cyberpower-logo.jpg",height: 200,width: 200,)),
     );
   }
 
