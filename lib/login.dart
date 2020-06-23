@@ -40,19 +40,12 @@ class _LoginPageState extends State<LoginPage> {
 
 
     var data;
-    print(url);
-    print(body);
-    print(headers);
-    print(context);
-    print("All the data is coming here");
-
 
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
     } catch(e) {
-      print('not working');
-      print('error caught: $e');
+
     }
 
     print(data);
@@ -67,20 +60,20 @@ class _LoginPageState extends State<LoginPage> {
 
     Map<String, dynamic> user = jsonDecode(data);
     print(user);
-    // AppConfig.loginData = data;
-    // if(user['errorMessage'] != null) { //// need to change things on this checkpoint
-    //       setState(() {
-    //         print("Login Failed");
-    //         _loading = false;
-    //       });
-    //       print("userrrr");
-    //       print(user);
-    // } else {
+     AppConfig.loginData = data;
+     if(user['errorMessage'] != null) { //// need to change things on this checkpoint
+           setState(() {
+             print("Login Failed");
+             _loading = false;
+           });
+           print("userrrr");
+           print(user);
+     } else {
 
-    //     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+         Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
 
       
-    // }
+     }
   }
 
   Widget _entryFieldEmail(String title, {bool isPassword = false}) {
@@ -179,12 +172,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _logo() {
     return Container(
-      child: InkWell(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-
-        },
-          child: Image.asset("images/cyberpower-logo.jpg",height: 200,width: 200,)),
+      child: Image.asset("images/cyberpower-logo.jpg",height: 200,width: 200,),
     );
   }
 

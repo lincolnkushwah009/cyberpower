@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+
 
 
 class Home extends StatefulWidget {
@@ -7,8 +11,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  List categoryList;
+  Map data;
+
+  CallLogByEngineer() async {
+    http.Response response =
+    await http.get('http://52.163.212.84:7000/getAllCallLogByEngineer');
+    data = json.decode(response.body);
+    setState(() {
+      categoryList = data['category'];
+    });
+    debugPrint(response.body);
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    print("dataaaaaaaaaaaaaaaaaaaaaaaaaaaaa............");
+
+    print(categoryList);
+
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
