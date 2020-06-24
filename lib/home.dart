@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 
-
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -12,26 +10,57 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  List categoryList;
-  Map data;
+//  List categoryList;
+//  Map data;
+//
+//  CallLogByEngineer() async {
+//
+//
+//    var DataID = {
+//      "assignedTo":01
+//    };
+//
+//    http.Response response =
+//    await http.get('http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1');
+//    data = json.decode(response.body);
+//    setState(() {
+//      categoryList = data['category'];
+//    });
+//    debugPrint(response.body);
+//  }
 
-  CallLogByEngineer() async {
-    http.Response response =
-    await http.get('http://52.163.212.84:7000/getAllCallLogByEngineer');
-    data = json.decode(response.body);
-    setState(() {
-      categoryList = data['category'];
-    });
-    debugPrint(response.body);
-  }
 
+
+
+final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
+List Data;
+
+
+@override
+void initState(){
+  super.initState();
+  this.getJsonData();
+}
+
+Future<String> getJsonData() async{
+  var response=await http.get(
+    Uri.encodeFull(url),
+
+    headers: {"Accept": "application/json"}
+  );
+
+  print(response.body);
+
+  setState(() {
+    var convertDataToJson = json.decode(response.body);
+    Data = convertDataToJson['result'];
+  });
+
+}
 
   @override
   Widget build(BuildContext context) {
     print("dataaaaaaaaaaaaaaaaaaaaaaaaaaaaa............");
-
-    print(categoryList);
-
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
