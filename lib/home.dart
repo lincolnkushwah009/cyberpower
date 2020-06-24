@@ -70,16 +70,14 @@ Future<String> getJsonData() async{
       length: 3,
            child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.black,
           title: Padding(
             padding: const EdgeInsets.fromLTRB(15,0,0,0),
-            child: Text("Welcome ", style: TextStyle(fontSize: 25,
-//                decoration: TextDecoration.underline,
-//                decorationStyle: TextDecorationStyle.wavy,
-            )),
+            child: Image.asset("images/cyberpower-logo.jpg",height: 200,width: 200,)
           ),
           bottom: TabBar(
-            labelColor: Colors.red,
+            labelColor: Colors.red[800],
             unselectedLabelColor: Colors.grey,
             tabs: [
               Tab(text: 'Open'),
@@ -104,7 +102,7 @@ Future<String> getJsonData() async{
 }
 
 class Open extends StatelessWidget {
-  final List<Widget> cards = List<Widget>.generate(8, (i)=>new OpenCards());
+  final List<Widget> cards = List<Widget>.generate(1, (i)=>new OpenCards());
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +126,7 @@ class Open extends StatelessWidget {
 
 
 class Pending extends StatelessWidget {
-  final List<Widget> cards = List<Widget>.generate(3, (i)=> PendingCards());
+  final List<Widget> cards = List<Widget>.generate(1, (i)=> PendingCards());
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +151,7 @@ class Pending extends StatelessWidget {
 
 
 class Closed extends StatelessWidget {
-  final List<Widget> cards = List<Widget>.generate(3, (i)=>new ClosedCards());
+  final List<Widget> cards = List<Widget>.generate(1, (i)=>new ClosedCards());
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +194,7 @@ class OpenCards extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Call Log Number"),
-                        Text("......")
+                        Text("C062020C0001")
                       ],
                     ),
                   ),
@@ -207,8 +205,9 @@ class OpenCards extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("FSR Number"),
+                        Text("10000"),
                         RaisedButton(
-                          color: Colors.red,
+                          color: Colors.red[600],
                           onPressed: (){},
                           child: Text("Service",style: TextStyle(color: Colors.white),),
                         )
@@ -221,7 +220,7 @@ class OpenCards extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Status"),
-                        Text("................")
+                        Text("Open")
                       ],
                     ),
                   ),
@@ -263,7 +262,7 @@ class PendingCards extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Call Log Number"),
-                        Text("......")
+                        Text("C062020C0002")
                       ],
                     ),
                   ),
@@ -275,8 +274,9 @@ class PendingCards extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("FSR Number"),
+                        Text("10001"),
                         RaisedButton(
-                          color: Colors.red,
+                          color: Colors.red[600],
                           onPressed: (){},
                           child: Text("Service",style: TextStyle(color: Colors.white),),
                         )
@@ -289,16 +289,10 @@ class PendingCards extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Status"),
-                        Text("......")
+                        Text("Pending")
                       ],
                     ),
                   ),
-
-
-
-
-
-
 
                 ],
               ),
@@ -337,7 +331,7 @@ class ClosedCards extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text("Call Log Number"),
-                        Text("......")
+                        Text("C062020C0003")
                       ],
                     ),
                   ),
@@ -347,9 +341,9 @@ class ClosedCards extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("FSR Number"),
+                        Text("FSR Number"),Text("10002"),
                         RaisedButton(
-                          color: Colors.red,
+                          color: Colors.red[600],
                           onPressed: (){},
                           child: Text("Service",style: TextStyle(color: Colors.white),),
                         )

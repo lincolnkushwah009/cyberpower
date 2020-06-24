@@ -88,15 +88,20 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            validator: (input) {
+              if (input.isEmpty & !input.contains('@')) {
+                return 'Provide an email';
+              }
+            },
             decoration: InputDecoration(
               hintText: 'Email',
               hintStyle: TextStyle(color: Colors.black),
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(color: Colors.grey)) ,
 
               focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(color: Colors.black)),
             ),
             controller: loginEmailController,
@@ -116,20 +121,22 @@ class _LoginPageState extends State<LoginPage> {
          children: <Widget>[
 
            TextField(
+
                decoration: InputDecoration(
                  hintText: 'Password',
                  hintStyle: TextStyle(color: Colors.black),
                  border: OutlineInputBorder(
-                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                      borderSide: BorderSide(color: Colors.grey)) ,
 
                  focusedBorder: OutlineInputBorder(
-                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                      borderSide: BorderSide(color: Colors.black)),
                ),
 
                controller: loginPasswordController,
                obscureText: isPassword,
+
              style: TextStyle( fontSize: 15),
 
            )
@@ -140,31 +147,26 @@ class _LoginPageState extends State<LoginPage> {
 
 
   Widget _submitButton() {
-    return Container(
-     height: 40,
-      width: 150,
 
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(1, 2),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-         color: Colors.red
-      ),
-      child: GestureDetector(
-        onTap: (){
-           userLogin(loginEmailController.text,loginPasswordController.text);
-           print(loginEmailController.text);
-           print(loginPasswordController.text);
-           print("dataaaaaaaaaaaaaaaaa");
+
+    return ButtonTheme(
+      height: 40,
+      minWidth: 150,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+
+        ),
+        onPressed: (){
+          userLogin(loginEmailController.text,loginPasswordController.text);
         },
-
-              child: Text(
+//
+//      onPressed: (){
+//        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+//
+//      },
+        color: Colors.red[800],
+        child: Text(
           'Login',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
