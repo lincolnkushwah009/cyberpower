@@ -73,12 +73,21 @@ Future<String> getJsonData() async{
       length: 3,
            child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           backgroundColor: Colors.black,
           title: Padding(
             padding: const EdgeInsets.fromLTRB(15,0,0,0),
             child: Image.asset("images/cyberpower-logo.jpg",height: 100,width: 150,)
           ),
+
+        actions: <Widget>[
+
+          Icon(Icons.more_vert, color:Colors.white,),
+          SizedBox(width: 20)
+
+
+
+        ],
+
           bottom: TabBar(
             labelColor: Colors.red[800],
             unselectedLabelColor: Colors.grey,
