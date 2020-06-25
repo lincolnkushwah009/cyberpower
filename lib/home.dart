@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:cyberpower/Form.dart';
 
 
 class Home extends StatefulWidget {
@@ -329,7 +330,10 @@ class PendingCards extends StatelessWidget {
                         Text(""),
                         RaisedButton(
                           color: Colors.red[600],
-                          onPressed: (){},
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm()));
+
+                          },
                           child: Text("Service",style: TextStyle(color: Colors.white),),
                         )
                       ],
