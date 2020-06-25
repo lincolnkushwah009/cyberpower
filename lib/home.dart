@@ -182,6 +182,28 @@ class OpenCards extends StatefulWidget {
 
 class _OpenCardsState extends State<OpenCards> {
   List<dynamic> notList = new List();
+  final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
+@override
+void initState(){
+  super.initState();
+  this.getJsonData();
+}
+
+Future<String> getJsonData() async{
+  var response=await http.get(
+    Uri.encodeFull(url),
+
+    headers: {"Accept": "application/json"}
+  );
+
+  print(response.body);
+
+  setState(() {
+    var convertDataToJson = json.decode(response.body);
+    notList = convertDataToJson;
+  });
+
+}
 
 
   @override
@@ -210,7 +232,7 @@ class _OpenCardsState extends State<OpenCards> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text("Call Log Number"),
-                                Text("C062020C0001")
+                                Text(notList[i]['callLogId'])
                               ],
                             ),
                           ),
@@ -221,7 +243,7 @@ class _OpenCardsState extends State<OpenCards> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text("FSR Number"),
-                                Text("10000"),
+                                Text(notList[i]['fsrNo']),
                               ],
                             ),
                           ),
@@ -231,7 +253,7 @@ class _OpenCardsState extends State<OpenCards> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text("Status"),
-                                Text("Open")
+                                Text(notList[i]['status'])
                               ],
                             ),
                           ),
