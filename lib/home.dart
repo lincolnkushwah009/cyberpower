@@ -9,6 +9,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<dynamic> notList = new List();
 
 //  List categoryList;
 //  Map data;
@@ -34,6 +35,7 @@ class _HomeState extends State<Home> {
 
 final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
 List Data;
+
 
 
 @override
@@ -74,7 +76,7 @@ Future<String> getJsonData() async{
           backgroundColor: Colors.black,
           title: Padding(
             padding: const EdgeInsets.fromLTRB(15,0,0,0),
-            child: Image.asset("images/cyberpower-logo.jpg",height: 200,width: 200,)
+            child: Image.asset("images/cyberpower-logo.jpg",height: 100,width: 150,)
           ),
           bottom: TabBar(
             labelColor: Colors.red[800],
@@ -89,7 +91,7 @@ Future<String> getJsonData() async{
         body: TabBarView(
 
           children: [
-            Open(),
+            OpenCards(),
             Pending(),
             Closed(),
           ],
@@ -101,27 +103,27 @@ Future<String> getJsonData() async{
   }
 }
 
-class Open extends StatelessWidget {
-  final List<Widget> cards = List<Widget>.generate(1, (i)=>new OpenCards());
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            body:   Padding(
-              padding: const EdgeInsets.fromLTRB(0,0,0,50),
-              child: new Container(
-                  child: new ListView(
-                    children: cards,
-                  )
-
-              ),
-            )
-        )
-    );
-  }
-}
+//class Open extends StatelessWidget {
+//  final List<Widget> cards = List<Widget>.generate(1, (i)=>new OpenCards());
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return MaterialApp(
+//        debugShowCheckedModeBanner: false,
+//        home: Scaffold(
+//            body:   Padding(
+//              padding: const EdgeInsets.fromLTRB(0,0,0,50),
+//              child: new Container(
+//                  child: new ListView(
+//                    children: cards,
+//                  )
+//
+//              ),
+//            )
+//        )
+//    );
+//  }
+//}
 
 
 
@@ -173,72 +175,102 @@ class Closed extends StatelessWidget {
 }
 
 
-class OpenCards extends StatelessWidget {
+class OpenCards extends StatefulWidget {
+  @override
+  _OpenCardsState createState() => _OpenCardsState();
+}
+
+class _OpenCardsState extends State<OpenCards> {
+  List<dynamic> notList = new List();
+
+
   @override
   Widget build(BuildContext context) {
-    return  Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            height: 150,
-            width: 350,
-            child: Card(
+    return  ListView.builder(
+        itemCount: notList.length,
+        itemBuilder: (context, i)
+        {
+          Map<String, dynamic> item = notList[i];
+          return Container(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 170,
+                    width: 350,
+                    child: Card(
 
-              child:Column(
-                children: <Widget>[
+                      child:Column(
+                        children: <Widget>[
 
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Call Log Number"),
-                        Text("C062020C0001")
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Call Log Number"),
+                                Text("C062020C0001")
+                              ],
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("FSR Number"),
+                                Text("10000"),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("Status"),
+                                Text("Open")
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(""),
+                                RaisedButton(
+                                  color: Colors.red[600],
+                                  onPressed: (){},
+                                  child: Text("Service",style: TextStyle(color: Colors.white),),
+                                )
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      ),
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 5,
                     ),
                   ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("FSR Number"),
-                        Text("10000"),
-                        RaisedButton(
-                          color: Colors.red[600],
-                          onPressed: (){},
-                          child: Text("Service",style: TextStyle(color: Colors.white),),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Status"),
-                        Text("Open")
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              elevation: 5,
+                ),
+              ],
             ),
-          ),
-        ),
-      ],
+          );
+        }
+
     );
   }
 }
+
+
+
 
 
 class PendingCards extends StatelessWidget {
@@ -249,7 +281,7 @@ class PendingCards extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: 150,
+            height: 170,
             width: 350,
             child: Card(
 
@@ -275,11 +307,7 @@ class PendingCards extends StatelessWidget {
                       children: <Widget>[
                         Text("FSR Number"),
                         Text("10001"),
-                        RaisedButton(
-                          color: Colors.red[600],
-                          onPressed: (){},
-                          child: Text("Service",style: TextStyle(color: Colors.white),),
-                        )
+
                       ],
                     ),
                   ),
@@ -293,6 +321,21 @@ class PendingCards extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(""),
+                        RaisedButton(
+                          color: Colors.red[600],
+                          onPressed: (){},
+                          child: Text("Service",style: TextStyle(color: Colors.white),),
+                        )
+                      ],
+                    ),
+                  ),
+
 
                 ],
               ),
@@ -318,7 +361,7 @@ class ClosedCards extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            height: 120,
+            height: 140,
             width: 350,
             child: Card(
 
@@ -341,7 +384,18 @@ class ClosedCards extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("FSR Number"),Text("10002"),
+                        Text("FSR Number"),
+                        Text("10002"),
+
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(""),
                         RaisedButton(
                           color: Colors.red[600],
                           onPressed: (){},
