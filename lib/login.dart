@@ -160,11 +160,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: (){
           userLogin(loginEmailController.text,loginPasswordController.text);
         },
-//
-//      onPressed: (){
-//        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-//
-//      },
+
         color: Colors.red[800],
         child: Text(
           'Login',

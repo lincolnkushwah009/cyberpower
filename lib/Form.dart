@@ -9,7 +9,35 @@ class _serviceFormState extends State<serviceForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: (
+
+      Container(
+        height: 60,
+        width: double.infinity,
+
+        child: RaisedButton(
+          color: Colors.red[800],
+          child: Text("Save",style: TextStyle(fontSize: 20, color: Colors.white),),
+          onPressed: (){},
+        ),
+      )
+      ),
       resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Image.asset(
+          "images/cyberpower-logo.jpg",
+          width: 150,
+        ),
+        actions: <Widget>[
+          Icon(
+            Icons.more_vert,
+            color: Colors.white,
+          ),
+          SizedBox(width: 20)
+        ],
+
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -366,17 +394,18 @@ class _serviceFormState extends State<serviceForm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
 
+
                         Container(
                           height: 40,
-                          width: 150,
+                          width: 60,
                           child: TextFormField(
 
                             decoration: InputDecoration(
-                              hintText: 'Volt After 5 mins',
+                              hintText: ' R-N',
                               hintStyle: TextStyle(color: Colors.grey),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                  borderSide: BorderSide(color: Colors.grey)) ,
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
 
                               focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -385,14 +414,32 @@ class _serviceFormState extends State<serviceForm> {
                             style: TextStyle(fontSize: 15),
                           ),
                         ),
-
                         Container(
                           height: 40,
                           width: 60,
                           child: TextFormField(
 
                             decoration: InputDecoration(
-                              hintText: ' Volt After 10 mins',
+                              hintText: ' Y-N',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' B-N',
                               hintStyle: TextStyle(color: Colors.grey),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -407,8 +454,203 @@ class _serviceFormState extends State<serviceForm> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
 
 
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' R-N',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' Y-N',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' B-N',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Text("Input Voltage"),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+
+
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' N-R',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' N-S',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' N-T',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+
+
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' R-T',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' S-T',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' R-T',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
 
                   ],
                 ),
