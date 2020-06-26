@@ -359,6 +359,54 @@ class _serviceFormState extends State<serviceForm> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10),
+                    Text("Input Voltage"),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+
+                        Container(
+                          height: 40,
+                          width: 150,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: 'Volt After 5 mins',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.grey)) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+
+                        Container(
+                          height: 40,
+                          width: 60,
+                          child: TextFormField(
+
+                            decoration: InputDecoration(
+                              hintText: ' Volt After 10 mins',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])) ,
+
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.red[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      ],
+                    ),
 
 
 

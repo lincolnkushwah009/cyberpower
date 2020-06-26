@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:cyberpower/Form.dart';
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -31,35 +30,27 @@ class _HomeState extends State<Home> {
 //    debugPrint(response.body);
 //  }
 
+  final String url =
+      "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
+  List Data;
 
+  @override
+  void initState() {
+    super.initState();
+    this.getJsonData();
+  }
 
+  Future<String> getJsonData() async {
+    var response = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
 
-final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
-List Data;
+    print(response.body);
 
-
-
-@override
-void initState(){
-  super.initState();
-  this.getJsonData();
-}
-
-Future<String> getJsonData() async{
-  var response=await http.get(
-    Uri.encodeFull(url),
-
-    headers: {"Accept": "application/json"}
-  );
-
-  print(response.body);
-
-  setState(() {
-    var convertDataToJson = json.decode(response.body);
-    Data = convertDataToJson['result'];
-  });
-
-}
+    setState(() {
+      var convertDataToJson = json.decode(response.body);
+      Data = convertDataToJson['result'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,48 +58,43 @@ Future<String> getJsonData() async{
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
-      home:  Scaffold(
+      home: Scaffold(
         body: DefaultTabController(
-      length: 3,
-           child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Padding(
-            padding: const EdgeInsets.fromLTRB(15,0,0,0),
-            child: Image.asset("images/cyberpower-logo.jpg",height: 100,width: 150,)
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              title: Image.asset(
+                "images/cyberpower-logo.jpg",
+                width: 150,
+              ),
+              actions: <Widget>[
+                Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                ),
+                SizedBox(width: 20)
+              ],
+              bottom: TabBar(
+                labelColor: Colors.red[800],
+                unselectedLabelColor: Colors.grey,
+                tabs: [
+                  Tab(text: 'Open'),
+                  Tab(text: 'Pending'),
+                  Tab(text: 'Closed'),
+                ],
+              ),
+            ),
+            body: TabBarView(
+              children: [
+                OpenCards(),
+                Pending(),
+                Closed(),
+              ],
+            ),
           ),
-
-        actions: <Widget>[
-
-          Icon(Icons.more_vert, color:Colors.white,),
-          SizedBox(width: 20)
-
-
-
-        ],
-
-          bottom: TabBar(
-            labelColor: Colors.red[800],
-            unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(text: 'Open'),
-              Tab(text: 'Pending'),
-              Tab(text: 'Closed'),
-            ],
-          ),
-        ),
-        body: TabBarView(
-
-          children: [
-            OpenCards(),
-            Pending(),
-            Closed(),
-          ],
         ),
       ),
-    ),
-    ),
     );
   }
 }
@@ -135,55 +121,41 @@ Future<String> getJsonData() async{
 //  }
 //}
 
-
-
 class Pending extends StatelessWidget {
-  final List<Widget> cards = List<Widget>.generate(1, (i)=> PendingCards());
+  final List<Widget> cards = List<Widget>.generate(1, (i) => PendingCards());
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            body:   Padding(
-              padding: const EdgeInsets.fromLTRB(0,0,0,50),
-              child: new Container(
-                  child: new ListView(
-                    children: cards,
-                  )
-
-              ),
-            )
-        )
-    );
+            body: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+          child: new Container(
+              child: new ListView(
+            children: cards,
+          )),
+        )));
   }
 }
-
-
-
 
 class Closed extends StatelessWidget {
-  final List<Widget> cards = List<Widget>.generate(1, (i)=>new ClosedCards());
+  final List<Widget> cards = List<Widget>.generate(1, (i) => new ClosedCards());
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-            body:   Padding(
-              padding: const EdgeInsets.fromLTRB(0,0,0,50),
-              child: new Container(
-                  child: new ListView(
-                    children: cards,
-                  )
-
-              ),
-            )
-        )
-    );
+            body: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
+          child: new Container(
+              child: new ListView(
+            children: cards,
+          )),
+        )));
   }
 }
-
 
 class OpenCards extends StatefulWidget {
   @override
@@ -192,36 +164,38 @@ class OpenCards extends StatefulWidget {
 
 class _OpenCardsState extends State<OpenCards> {
   List<dynamic> notList = new List();
-  final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
-@override
-void initState(){
-  super.initState();
-  this.getJsonData();
-}
+  final String url =
+      "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
+  @override
+  void initState() {
+    super.initState();
+    this.getJsonData('Closed');
+  }
 
-Future<String> getJsonData() async{
-  var response=await http.get(
-    Uri.encodeFull(url),
+  Future<String> getJsonData(status) async {
+    var response = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
 
-    headers: {"Accept": "application/json"}
-  );
-
-  print(response.body);
-
-  setState(() {
+    print(response.body);
     var convertDataToJson = json.decode(response.body);
-    notList = convertDataToJson;
-  });
+    var filterlist = [];
+    for(var i=0; i<convertDataToJson.length; i++) {
+      print([convertDataToJson[i]['status'], convertDataToJson[i]['status'] == status]);
+      print("@@@@@@@@@@");
+      if( convertDataToJson[i]['status'] == status)
+      filterlist.addAll([convertDataToJson[i] ]);
+    }
 
-}
-
+    setState(() {
+      notList = filterlist; // convertDataToJson;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  ListView.builder(
+    return ListView.builder(
         itemCount: notList.length,
-        itemBuilder: (context, i)
-        {
+        itemBuilder: (context, i) {
           Map<String, dynamic> item = notList[i];
           return Container(
             child: Column(
@@ -232,10 +206,8 @@ Future<String> getJsonData() async{
                     height: 170,
                     width: 350,
                     child: Card(
-
-                      child:Column(
+                      child: Column(
                         children: <Widget>[
-
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -246,7 +218,6 @@ Future<String> getJsonData() async{
                               ],
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -275,16 +246,17 @@ Future<String> getJsonData() async{
                                 Text(""),
                                 RaisedButton(
                                   color: Colors.red[600],
-                                  onPressed: (){},
-                                  child: Text("Service",style: TextStyle(color: Colors.white),),
+                                  onPressed: () {},
+                                  child: Text(
+                                    "Service",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 )
                               ],
                             ),
                           ),
-
                         ],
                       ),
-
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -295,20 +267,14 @@ Future<String> getJsonData() async{
               ],
             ),
           );
-        }
-
-    );
+        });
   }
 }
-
-
-
-
 
 class PendingCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -316,10 +282,8 @@ class PendingCards extends StatelessWidget {
             height: 170,
             width: 350,
             child: Card(
-
-              child:Column(
+              child: Column(
                 children: <Widget>[
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -330,8 +294,6 @@ class PendingCards extends StatelessWidget {
                       ],
                     ),
                   ),
-
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -339,7 +301,6 @@ class PendingCards extends StatelessWidget {
                       children: <Widget>[
                         Text("FSR Number"),
                         Text("10001"),
-
                       ],
                     ),
                   ),
@@ -347,10 +308,7 @@ class PendingCards extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Status"),
-                        Text("Pending")
-                      ],
+                      children: <Widget>[Text("Status"), Text("Pending")],
                     ),
                   ),
                   Padding(
@@ -361,20 +319,22 @@ class PendingCards extends StatelessWidget {
                         Text(""),
                         RaisedButton(
                           color: Colors.red[600],
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm()));
-
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => serviceForm()));
                           },
-                          child: Text("Service",style: TextStyle(color: Colors.white),),
+                          child: Text(
+                            "Service",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
                   ),
-
-
                 ],
               ),
-
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
@@ -387,11 +347,10 @@ class PendingCards extends StatelessWidget {
   }
 }
 
-
 class ClosedCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -399,10 +358,8 @@ class ClosedCards extends StatelessWidget {
             height: 140,
             width: 350,
             child: Card(
-
-              child:Column(
+              child: Column(
                 children: <Widget>[
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -413,7 +370,6 @@ class ClosedCards extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -421,7 +377,6 @@ class ClosedCards extends StatelessWidget {
                       children: <Widget>[
                         Text("FSR Number"),
                         Text("10002"),
-
                       ],
                     ),
                   ),
@@ -433,16 +388,17 @@ class ClosedCards extends StatelessWidget {
                         Text(""),
                         RaisedButton(
                           color: Colors.red[600],
-                          onPressed: (){},
-                          child: Text("Service",style: TextStyle(color: Colors.white),),
+                          onPressed: () {},
+                          child: Text(
+                            "Service",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
                   ),
-
                 ],
               ),
-
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
