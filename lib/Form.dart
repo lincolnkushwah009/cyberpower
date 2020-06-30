@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cyberpower/testForm.dart';
+import 'package:image_picker/image_picker.dart';
 
 class serviceForm extends StatefulWidget {
   @override
@@ -7,6 +8,11 @@ class serviceForm extends StatefulWidget {
 }
 
 class _serviceFormState extends State<serviceForm> {
+  List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
+  String _selectedLocation; // Option 2
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -908,6 +914,35 @@ class _serviceFormState extends State<serviceForm> {
 
                         ],
                       ),
+                      SizedBox(height: 10,),
+
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                        children: <Widget>[
+                          DropdownButton(
+                            hint: Text('Site Condition'), // Not necessary for Option 1
+                            value: _selectedLocation,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedLocation = newValue;
+                              });
+                            },
+                            items: _locations.map((location) {
+                              print(_selectedLocation);
+                              return DropdownMenuItem(
+                                child: new Text(location),
+                                value: location,
+                              );
+                            }).toList(),
+                          ),
+
+                          Text("")
+                        ],
+                      ),
+
+
                     ],
                   ),
                 ),
