@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
           length: 3,
           child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.redAccent[700],
               title: Image.asset(
                 "images/cyberpower-logo.jpg",
                 width: 150,
@@ -57,10 +57,10 @@ class _HomeState extends State<Home> {
                 SizedBox(width: 20)
               ],
               bottom: TabBar(
-                labelColor: Colors.red[800],
-                unselectedLabelColor: Colors.grey,
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white70,
                 tabs: [
-                  Tab(text: 'Open'),
+                  Tab(text: 'Open',),
                   Tab(text: 'Pending'),
                   Tab(text: 'Closed'),
                 ],
@@ -167,7 +167,7 @@ class _OpenCardsState extends State<OpenCards> {
                               children: <Widget>[
                                 Text(""),
                                 RaisedButton(
-                                  color: Colors.red[600],
+                                  color: Colors.redAccent[700],
                                   onPressed: () {},
                                   child: Text(
                                     "Service",
@@ -280,7 +280,7 @@ class _PendingCardsState extends State<PendingCards> {
                               children: <Widget>[
                                 Text(""),
                                 RaisedButton(
-                                  color: Colors.red[600],
+                                  color: Colors.redAccent[700],
                                   onPressed: () {
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm()));
 
@@ -397,7 +397,7 @@ class _ClosedCardsState extends State<ClosedCards> {
                               children: <Widget>[
                                 Text(""),
                                 RaisedButton(
-                                  color: Colors.red[600],
+                                  color: Colors.redAccent[700],
                                   onPressed: () {},
                                   child: Text(
                                     "Service",
