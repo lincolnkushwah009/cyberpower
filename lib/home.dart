@@ -282,7 +282,7 @@ class _PendingCardsState extends State<PendingCards> {
                                 RaisedButton(
                                   color: Colors.redAccent[700],
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm( listData: notList[i])));
 
                                   },
                                   child: Text(

@@ -3,6 +3,9 @@ import 'package:cyberpower/testForm.dart';
 import 'package:image_picker/image_picker.dart';
 
 class serviceForm extends StatefulWidget {
+  var listData;
+  serviceForm({this.listData});
+
   @override
   _serviceFormState createState() => _serviceFormState();
 }
@@ -12,9 +15,10 @@ class _serviceFormState extends State<serviceForm> {
   String _selectedLocation; // Option 2
 
 
-
   @override
   Widget build(BuildContext context) {
+    print(" list data insde single tab");
+    print(widget.listData);
     return Scaffold(
 
       resizeToAvoidBottomPadding: false,
