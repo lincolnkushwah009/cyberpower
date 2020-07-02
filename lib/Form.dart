@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cyberpower/testForm.dart';
 import 'package:image_picker/image_picker.dart';
+import 'config/AppConfig.dart';
 
 class serviceForm extends StatefulWidget {
   var listData;
@@ -11,14 +12,21 @@ class serviceForm extends StatefulWidget {
 }
 
 class _serviceFormState extends State<serviceForm> {
+  static var images;
+  TextEditingController serialNoConroller = new TextEditingController();
   List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
   String _selectedLocation; // Option 2
+Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
-
+    setState(() {
+      AppConfig.image = image;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     print(" list data insde single tab");
-    print(widget.listData);
+    print(widget.listData['serialNumber']);
     return Scaffold(
 
       resizeToAvoidBottomPadding: false,
@@ -140,7 +148,23 @@ class _serviceFormState extends State<serviceForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Serial No."),
-                          Text("123456789"),
+                          widget.listData['serialNumber']=='NA'?
+                         TextFormField(
+            decoration: InputDecoration(
+              hintText: 'Email',
+              hintStyle: TextStyle(color: Colors.black),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  borderSide: BorderSide(color: Colors.grey)) ,
+
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  borderSide: BorderSide(color: Colors.black)),
+            ),
+            controller: serialNoConroller,
+            style: TextStyle(fontSize: 15),
+          ):
+                          Text(widget.listData['serialNumber'])
 
                         ],
                       ),
@@ -919,8 +943,7 @@ class _serviceFormState extends State<serviceForm> {
                         ],
                       ),
                       SizedBox(height: 10,),
-
-
+                        _selectedLocation=='Dusty'?
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
@@ -941,10 +964,65 @@ class _serviceFormState extends State<serviceForm> {
                               );
                             }).toList(),
                           ),
+                        
+                             RaisedButton(
 
-                          Text("")
+                                  onPressed: (){
+                                    getImage();
+                                  },
+
+                                  child: Text(
+                                    "Select",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+
+                          Container(
+                                          width: 100.0,
+                                          height: 100.0,
+                                          child: AppConfig.image!=null?Image.file(AppConfig.image,
+                                          fit: BoxFit.fitWidth,
+                                          height: 114,
+                                          width: 114):new Container( width: 100.0,
+                                          height: 100.0,
+                                          decoration: new BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: new DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: new AssetImage(
+                                                  "images/cyberpower-logo.jpg"),
+                                            ),
+                                          )
+                                          )
+                                          
+                                          )
+                          
                         ],
-                      ),
+                      ): Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                        children: <Widget>[
+                          DropdownButton(
+                            hint: Text('Site Condition'), // Not necessary for Option 1
+                            value: _selectedLocation,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedLocation = newValue;
+                              });
+                            },
+                            items: _locations.map((location) {
+                              print(_selectedLocation);
+                              return DropdownMenuItem(
+                                child: new Text(location),
+                                value: location,
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      )
 
 
                     ],

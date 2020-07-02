@@ -7,4 +7,5 @@ class AppConfig{
   static final String login="engineerLogin";
     static var httpStatusCodeRec;
     static String loginData = "";
+    static var image;
 }
