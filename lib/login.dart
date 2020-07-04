@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
     Map<String, dynamic> user = jsonDecode(data);
     print(user);
      AppConfig.loginData = data;
-     if(user['errorMessage'] != null) { //// need to change things on this checkpoint
+     if(user['success'] == false) { //// need to change things on this checkpoint
            setState(() {
              print("Login Failed");
              _loading = false;
