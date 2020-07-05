@@ -14,6 +14,36 @@ class serviceForm extends StatefulWidget {
 class _serviceFormState extends State<serviceForm> {
   static var images;
   TextEditingController serialNumberConroller = new TextEditingController();
+  TextEditingController serialNoConroller = new TextEditingController();
+  TextEditingController engineername = new TextEditingController();
+   TextEditingController engineerContact = new TextEditingController();
+    TextEditingController customername = new TextEditingController();
+     TextEditingController customerContact = new TextEditingController();
+     TextEditingController loadR = new TextEditingController();
+  TextEditingController loadY = new TextEditingController();
+   TextEditingController loadB = new TextEditingController();
+    TextEditingController totalBatteryVolt = new TextEditingController();
+     TextEditingController chargingVolt = new TextEditingController();
+          TextEditingController voltAfterFive = new TextEditingController();
+
+     TextEditingController voltAfterTen = new TextEditingController();
+     TextEditingController inputRn = new TextEditingController();
+  TextEditingController inputYn = new TextEditingController();
+   TextEditingController inputBn = new TextEditingController();
+    TextEditingController inputNe = new TextEditingController();
+     TextEditingController inputRn2 = new TextEditingController();
+     TextEditingController inputYn2 = new TextEditingController();
+  TextEditingController inputBn2 = new TextEditingController();
+   TextEditingController outputNr = new TextEditingController();
+    TextEditingController outputNs = new TextEditingController();
+     TextEditingController outputNt = new TextEditingController();
+          TextEditingController outputNe = new TextEditingController();
+
+     TextEditingController outputRt = new TextEditingController();
+     TextEditingController outputSt = new TextEditingController();
+          TextEditingController outputRt2 = new TextEditingController();
+
+
   List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
   String _selectedLocation; // Option 2
 Future getImage() async {
@@ -196,7 +226,7 @@ Future getImage() async {
                         Container(
                             height: 40,
                            width: 150,
-                            child: TextFormField(
+                            child: TextFormField(controller: engineername,
                               decoration: InputDecoration(
                                 hintText: 'Engineer Name',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -217,7 +247,7 @@ Future getImage() async {
                         Container(
                             height: 40,
                            width: 150,
-                            child: TextFormField(
+                            child: TextFormField(controller: engineerContact,
                               decoration: InputDecoration(
                                 hintText: 'Engineer Contact',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -245,6 +275,7 @@ Future getImage() async {
                             height: 40,
                            width: 150,
                             child: TextFormField(
+                              controller: customername,
                               decoration: InputDecoration(
                                 hintText: 'Customer Name',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -266,6 +297,7 @@ Future getImage() async {
                             height: 40,
                            width: 150,
                             child: TextFormField(
+                              controller: customerContact,
                               decoration: InputDecoration(
                                 hintText: 'Customer Contact',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -294,6 +326,7 @@ Future getImage() async {
                             height: 40,
                            width: 70,
                             child: TextFormField(
+                              controller: loadR,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'R',
@@ -316,6 +349,7 @@ Future getImage() async {
                             height: 40,
                            width: 70,
                             child: TextFormField(
+                              controller: loadY,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'Y',
@@ -338,6 +372,7 @@ Future getImage() async {
                             height: 40,
                            width: 70,
                             child: TextFormField(
+                              controller: loadB,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 hintText: 'B',
@@ -368,6 +403,7 @@ Future getImage() async {
                             height: 40,
                            width: 150,
                             child: TextFormField(
+                              controller: totalBatteryVolt,
                               decoration: InputDecoration(
                                 hintText: 'Total Battery Volt',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -389,6 +425,7 @@ Future getImage() async {
                             height: 40,
                            width: 150,
                             child: TextFormField(
+                              controller: chargingVolt,
                               decoration: InputDecoration(
                                 hintText: ' Charging Volt',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -416,6 +453,7 @@ Future getImage() async {
                             height: 40,
                            width: 150,
                             child: TextFormField(
+                              controller: voltAfterFive,
                               decoration: InputDecoration(
                                 hintText: 'Volt After 5 mins',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -437,6 +475,7 @@ Future getImage() async {
                             height: 40,
                            width: 150,
                             child: TextFormField(
+                              controller: voltAfterTen,
                               decoration: InputDecoration(
                                 hintText: ' Volt After 10 mins',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -475,6 +514,7 @@ Future getImage() async {
                                 height: 30,
                                width: 150,
                                 child: TextFormField(
+                                  controller: inputRn,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -503,6 +543,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: inputYn,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -538,6 +579,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: inputBn,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -566,6 +608,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: inputNe,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -601,6 +644,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: inputRn2,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -629,6 +673,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: inputYn2,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -664,6 +709,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: inputBn2,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -719,6 +765,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: outputNr,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -747,6 +794,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: outputNs,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -782,6 +830,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: outputNt,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -810,6 +859,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: outputNe,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -845,6 +895,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: outputRt,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -873,6 +924,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: outputSt,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -908,6 +960,7 @@ Future getImage() async {
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  controller: outputRt2,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
