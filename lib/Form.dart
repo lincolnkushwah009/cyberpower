@@ -13,7 +13,7 @@ class serviceForm extends StatefulWidget {
 
 class _serviceFormState extends State<serviceForm> {
   static var images;
-  TextEditingController serialNoConroller = new TextEditingController();
+  TextEditingController serialNumberConroller = new TextEditingController();
   List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
   String _selectedLocation; // Option 2
 Future getImage() async {
@@ -26,7 +26,7 @@ Future getImage() async {
   @override
   Widget build(BuildContext context) {
     print(" list data insde single tab");
-    print(widget.listData['serialNumber']);
+    print(widget.listData);
     return Scaffold(
 
       resizeToAvoidBottomPadding: false,
@@ -64,9 +64,9 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Call ID No."),
-                          Text("XXXXXXXX"),
+                          Text(widget.listData['callLogId']),
                           Text("FSR No."),
-                          Text("XXXXXXXX"),
+                          Text(widget.listData['fsrNo']),
                         ],
                       ),
                     ),
@@ -76,9 +76,9 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Client Name"),
-                          Text("XXXXXXXX"),
-                          Text("Date & Time"),
-                          Text("XXXXXXXX"),
+                          Text(widget.listData['customerName']),
+                          Text("Date"),
+                          Text(widget.listData['logDate']),
                         ],
                       ),
                     ),
@@ -88,7 +88,7 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Client Address"),
-                          Text("XXXXXXXXXXXXXX"),
+                          Text(widget.listData['address']),
                         ],
                       ),
                     ),
@@ -110,7 +110,7 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Serial No."),
-                          Text("XXXXX"),
+                          Text("XXXXXXX"),
                           Text("Battery Mark"),
                           Text("XXXXX"),
                         ],
@@ -161,7 +161,7 @@ Future getImage() async {
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   borderSide: BorderSide(color: Colors.black)),
             ),
-            controller: serialNoConroller,
+            controller: serialNumberConroller,
             style: TextStyle(fontSize: 15),
           ):
                           Text(widget.listData['serialNumber'])
