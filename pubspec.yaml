@@ -26,6 +26,11 @@ dependencies:
   http: ^0.12.1
   shared_preferences: ^0.5.7+3
   convert: ^2.1.1
+  image_picker: ^0.6.7+2
+  flushbar: 
+  video_player: ^0.10.11+1
+
+
 
 dev_dependencies:
   flutter_test:
