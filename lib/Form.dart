@@ -1,7 +1,9 @@
+import 'package:cyberpower/home.dart';
 import 'package:flutter/material.dart';
 import 'package:cyberpower/testForm.dart';
 import 'package:image_picker/image_picker.dart';
 import 'config/AppConfig.dart';
+import 'service/buy_fragment_service.dart';
 
 class serviceForm extends StatefulWidget {
   var listData;
@@ -10,9 +12,8 @@ class serviceForm extends StatefulWidget {
   @override
   _serviceFormState createState() => _serviceFormState();
 }
-
 class _serviceFormState extends State<serviceForm> {
-  static var images;
+   static var images;
   TextEditingController serialNoConroller = new TextEditingController();
   TextEditingController engineername = new TextEditingController();
    TextEditingController engineerContact = new TextEditingController();
@@ -41,10 +42,64 @@ class _serviceFormState extends State<serviceForm> {
      TextEditingController outputRt = new TextEditingController();
      TextEditingController outputSt = new TextEditingController();
           TextEditingController outputRt2 = new TextEditingController();
+           final BuyService buyservice = new BuyService();
 
 
   List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
   String _selectedLocation; // Option 2
+
+  void saveButton() async {
+
+    var url = AppConfig.apiUrl + AppConfig.form;
+
+    Map<String, String> headers = {
+    };
+    Map<String, String> body = {
+      "callLogNumber":"C062020C0001",
+"fsrNumber":"10000",
+    "fsrDate":"2020-07-01",
+    "fsrTime":"08:00:00",
+    "upsSerialNo":"15C9O3000977",
+    "batterySerialNo":"NA",
+	 "siteIssue":"Test Site Issue",
+	 "faultDescription":"Wire Broken",
+	 "observationAndWorkDone":"CHanged some part and serviced some test part",
+	 "ivrn":inputRn.text,
+	 "ivrn2":inputRn2.text,
+	 "ivyn":inputYn.text,
+	 "ivyn2":inputYn2.text,
+	 "ivbn":inputBn.text,
+	 "ivbn2":inputBn2.text,
+	"ivne":inputNe.text,
+	 "ovrt":outputRt.text,
+	 "ovrt2":outputRt2.text,
+	 "ovnr":outputNr.text,
+	 "ovns":outputNs.text,
+	 "ovnt":outputNt.text,
+	 "ovne":outputNe.text,
+	 "ovst":outputSt.text,
+	 "loadR":loadR.text,
+	 "loadB":loadB.text,
+	 "loadY":loadY.text,
+	 "bcTV":totalBatteryVolt.text,
+	 "bcV":chargingVolt.text,
+	 "bvA5":voltAfterFive.text,
+	 "bvA10":voltAfterTen.text,
+	 "callStatus":"Pending",
+	 "siteCondition":_selectedLocation,
+	 "sitePhoto1":"Test",
+	 "sitePhoto2":"Test",
+	 "sitePhoto3":"Test"
+    };
+    print('print body');
+    print(body);
+    var data = await buyservice.placeOrder(url, headers, body, context);
+    print(data);
+    setState(() {
+      Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new Home()));
+    });
+  }
+ 
 Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -1092,7 +1147,9 @@ Future getImage() async {
                   "Save",
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  saveButton();
+                },
               ),
             )
           ],
