@@ -168,7 +168,9 @@ class _OpenCardsState extends State<OpenCards> {
                                 Text(""),
                                 RaisedButton(
                                   color: Colors.redAccent[700],
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm( listData: notList[i])));
+                                  },
                                   child: Text(
                                     "Service",
                                     style: TextStyle(color: Colors.white),
@@ -398,7 +400,9 @@ class _ClosedCardsState extends State<ClosedCards> {
                                 Text(""),
                                 RaisedButton(
                                   color: Colors.redAccent[700],
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm( listData: notList[i])));
+                                  },
                                   child: Text(
                                     "Service",
                                     style: TextStyle(color: Colors.white),

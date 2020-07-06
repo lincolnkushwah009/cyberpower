@@ -110,7 +110,7 @@ Future getImage() async {
   @override
   Widget build(BuildContext context) {
     print(" list data insde single tab");
-    print(widget.listData['serialNumber']);
+    print(widget.listData);
     return Scaffold(
 
       resizeToAvoidBottomPadding: false,
@@ -148,9 +148,9 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Call ID No."),
-                          Text("XXXXXXXX"),
+                          Text(widget.listData['callLogId']),
                           Text("FSR No."),
-                          Text("XXXXXXXX"),
+                          Text(widget.listData['fsrNo']),
                         ],
                       ),
                     ),
@@ -160,9 +160,9 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Client Name"),
-                          Text("XXXXXXXX"),
-                          Text("Date & Time"),
-                          Text("XXXXXXXX"),
+                          Text(widget.listData['customerName']),
+                          Text("Date"),
+                          Text(widget.listData['logDate']),
                         ],
                       ),
                     ),
@@ -172,7 +172,7 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Client Address"),
-                          Text("XXXXXXXXXXXXXX"),
+                          Text(widget.listData['address']),
                         ],
                       ),
                     ),
@@ -194,7 +194,7 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Serial No."),
-                          Text("XXXXX"),
+                          Text("XXXXXXX"),
                           Text("Battery Mark"),
                           Text("XXXXX"),
                         ],
