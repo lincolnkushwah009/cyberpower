@@ -11,7 +11,7 @@ class BuyService {
     return await httpservice.httpPost(url, headers, body, context);
   }
 
-  placeOrder(url, headers, body, context) async {
+  postData(url, headers, body, context) async {
     return await httpservice.httpPost(url, headers, body, context);
   }
 

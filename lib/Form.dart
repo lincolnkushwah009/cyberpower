@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cyberpower/home.dart';
 import 'package:flutter/material.dart';
 import 'package:cyberpower/testForm.dart';
@@ -41,6 +43,7 @@ class _serviceFormState extends State<serviceForm> {
 
      TextEditingController outputRt = new TextEditingController();
      TextEditingController outputSt = new TextEditingController();
+      bool _loading = false;
           TextEditingController outputRt2 = new TextEditingController();
            final BuyService buyservice = new BuyService();
 
@@ -93,9 +96,17 @@ class _serviceFormState extends State<serviceForm> {
     };
     print('print body');
     print(body);
-    var data = await buyservice.placeOrder(url, headers, body, context);
+    var data;
+    try{
+      data = await buyservice.postData(url, headers, body, context);
+      data = await data.transform(utf8.decoder).join();
+    }
+    catch(e) {
+
+    }
     print(data);
     setState(() {
+      _loading=true;
       Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new Home()));
     });
   }
