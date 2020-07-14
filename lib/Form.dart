@@ -1,11 +1,27 @@
 import 'dart:convert';
 
 import 'package:cyberpower/home.dart';
+import 'package:cyberpower/login.dart';
 import 'package:flutter/material.dart';
-import 'package:cyberpower/testForm.dart';
 import 'package:image_picker/image_picker.dart';
 import 'config/AppConfig.dart';
 import 'service/buy_fragment_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
+
+
+class Constants{
+  static const String Logout = 'Logout';
+
+
+  static const List<String> choices = <String>[
+    Logout,
+
+  ];
+}
+
 
 class serviceForm extends StatefulWidget {
   var listData;
@@ -14,117 +30,117 @@ class serviceForm extends StatefulWidget {
   @override
   _serviceFormState createState() => _serviceFormState();
 }
+
 class _serviceFormState extends State<serviceForm> {
-   static var images;
+
+
+  static var images;
   TextEditingController serialNoConroller = new TextEditingController();
   TextEditingController engineername = new TextEditingController();
-   TextEditingController engineerContact = new TextEditingController();
-    TextEditingController customername = new TextEditingController();
-     TextEditingController customerContact = new TextEditingController();
-     TextEditingController loadR = new TextEditingController();
+  TextEditingController engineerContact = new TextEditingController();
+  TextEditingController customername = new TextEditingController();
+  TextEditingController customerContact = new TextEditingController();
+  TextEditingController loadR = new TextEditingController();
   TextEditingController loadY = new TextEditingController();
-   TextEditingController loadB = new TextEditingController();
-    TextEditingController totalBatteryVolt = new TextEditingController();
-     TextEditingController chargingVolt = new TextEditingController();
-          TextEditingController voltAfterFive = new TextEditingController();
+  TextEditingController loadB = new TextEditingController();
+  TextEditingController totalBatteryVolt = new TextEditingController();
+  TextEditingController chargingVolt = new TextEditingController();
+  TextEditingController voltAfterFive = new TextEditingController();
 
-     TextEditingController voltAfterTen = new TextEditingController();
-     TextEditingController inputRn = new TextEditingController();
+  TextEditingController voltAfterTen = new TextEditingController();
+  TextEditingController inputRn = new TextEditingController();
   TextEditingController inputYn = new TextEditingController();
-   TextEditingController inputBn = new TextEditingController();
-    TextEditingController inputNe = new TextEditingController();
-     TextEditingController inputRn2 = new TextEditingController();
-     TextEditingController inputYn2 = new TextEditingController();
+  TextEditingController inputBn = new TextEditingController();
+  TextEditingController inputNe = new TextEditingController();
+  TextEditingController inputRn2 = new TextEditingController();
+  TextEditingController inputYn2 = new TextEditingController();
   TextEditingController inputBn2 = new TextEditingController();
-   TextEditingController outputNr = new TextEditingController();
-    TextEditingController outputNs = new TextEditingController();
-     TextEditingController outputNt = new TextEditingController();
-          TextEditingController outputNe = new TextEditingController();
+  TextEditingController outputNr = new TextEditingController();
+  TextEditingController outputNs = new TextEditingController();
+  TextEditingController outputNt = new TextEditingController();
+  TextEditingController outputNe = new TextEditingController();
 
-     TextEditingController outputRt = new TextEditingController();
-     TextEditingController outputSt = new TextEditingController();
-      bool _loading = false;
-          TextEditingController outputRt2 = new TextEditingController();
-           final BuyService buyservice = new BuyService();
-
+  TextEditingController outputRt = new TextEditingController();
+  TextEditingController outputSt = new TextEditingController();
+  TextEditingController observationAndWorkDone = new TextEditingController();
+  bool _loading = false;
+  TextEditingController outputRt2 = new TextEditingController();
+  final BuyService buyservice = new BuyService();
 
   List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
   String _selectedLocation; // Option 2
 
   void saveButton() async {
-
     var url = AppConfig.apiUrl + AppConfig.form;
 
-    Map<String, String> headers = {
-    };
+    Map<String, String> headers = {};
     Map<String, String> body = {
-      "callLogNumber":"C062020C0001",
-"fsrNumber":"10000",
-    "fsrDate":"2020-07-01",
-    "fsrTime":"08:00:00",
-    "upsSerialNo":"15C9O3000977",
-    "batterySerialNo":"NA",
-	 "siteIssue":"Test Site Issue",
-	 "faultDescription":"Wire Broken",
-	 "observationAndWorkDone":"CHanged some part and serviced some test part",
-	 "ivrn":inputRn.text,
-	 "ivrn2":inputRn2.text,
-	 "ivyn":inputYn.text,
-	 "ivyn2":inputYn2.text,
-	 "ivbn":inputBn.text,
-	 "ivbn2":inputBn2.text,
-	"ivne":inputNe.text,
-	 "ovrt":outputRt.text,
-	 "ovrt2":outputRt2.text,
-	 "ovnr":outputNr.text,
-	 "ovns":outputNs.text,
-	 "ovnt":outputNt.text,
-	 "ovne":outputNe.text,
-	 "ovst":outputSt.text,
-	 "loadR":loadR.text,
-	 "loadB":loadB.text,
-	 "loadY":loadY.text,
-	 "bcTV":totalBatteryVolt.text,
-	 "bcV":chargingVolt.text,
-	 "bvA5":voltAfterFive.text,
-	 "bvA10":voltAfterTen.text,
-	 "callStatus":"Pending",
-	 "siteCondition":_selectedLocation,
-	 "sitePhoto1":"Test",
-	 "sitePhoto2":"Test",
-	 "sitePhoto3":"Test"
+      "callLogNumber": "C062020C0001",
+      "fsrNumber": "10000",
+      "fsrDate": "2020-07-01",
+      "fsrTime": "08:00:00",
+      "upsSerialNo": "15C9O3000977",
+      "batterySerialNo": "NA",
+      "siteIssue": "Test Site Issue",
+      "faultDescription": "Wire Broken",
+      "observationAndWorkDone": observationAndWorkDone.text,
+      "ivrn": inputRn.text,
+      "ivrn2": inputRn2.text,
+      "ivyn": inputYn.text,
+      "ivyn2": inputYn2.text,
+      "ivbn": inputBn.text,
+      "ivbn2": inputBn2.text,
+      "ivne": inputNe.text,
+      "ovrt": outputRt.text,
+      "ovrt2": outputRt2.text,
+      "ovnr": outputNr.text,
+      "ovns": outputNs.text,
+      "ovnt": outputNt.text,
+      "ovne": outputNe.text,
+      "ovst": outputSt.text,
+      "loadR": loadR.text,
+      "loadB": loadB.text,
+      "loadY": loadY.text,
+      "bcTV": totalBatteryVolt.text,
+      "bcV": chargingVolt.text,
+      "bvA5": voltAfterFive.text,
+      "bvA10": voltAfterTen.text,
+      "callStatus": "Pending",
+      "siteCondition": _selectedLocation,
+      "sitePhoto1": "Test",
+      "sitePhoto2": "Test",
+      "sitePhoto3": "Test"
     };
     print('print body');
     print(body);
     var data;
-    try{
+    try {
       data = await buyservice.postData(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
-    }
-    catch(e) {
-
-    }
+    } catch (e) {}
     print(data);
     setState(() {
-      _loading=true;
-      Navigator.of(context).push(new MaterialPageRoute(builder: (context) => new Home()));
+      _loading = true;
+      Navigator.of(context)
+          .push(new MaterialPageRoute(builder: (context) => new Home()));
     });
   }
- 
-Future getImage() async {
+
+  Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       AppConfig.image = image;
     });
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     print(" list data insde single tab");
     print(widget.listData);
     return Scaffold(
-
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: Colors.redAccent[700],
         title: Image.asset(
@@ -132,17 +148,17 @@ Future getImage() async {
           width: 150,
         ),
         actions: <Widget>[
-          InkWell(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => DropdownScreen()));
+          PopupMenuButton<String>(
+//            onSelected: choiceAction,
+            itemBuilder: (BuildContext context){
+              return Constants.choices.map((String choice){
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
             },
-            child: Icon(
-              Icons.more_vert,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(width: 20)
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -192,34 +208,54 @@ Future getImage() async {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("UPS Rating"),
-                          Text("XXXXX"),
+                          Text("UPS Qty"),
+                          Text("0"),
                           Text("UPS Model"),
                           Text("XXXXX"),
                         ],
                       ),
                     ),
+
+
+                  ],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 5,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Column(
+                  children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Serial No."),
-                          Text("XXXXXXX"),
-                          Text("Battery Mark"),
-                          Text("XXXXX"),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(" Battery Rating."),
-                          Text("XXXXX"),
-                          Text("Battery Qty"),
-                          Text("XXXXX"),
+                          widget.listData['serialNumber'] == 'NA'
+                              ? TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(color: Colors.black),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide:
+                                            BorderSide(color: Colors.grey)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide:
+                                            BorderSide(color: Colors.black)),
+                                  ),
+                                  controller: serialNoConroller,
+                                  style: TextStyle(fontSize: 15),
+                                )
+                              : Text(widget.listData['serialNumber'])
                         ],
                       ),
                     ),
@@ -231,6 +267,7 @@ Future getImage() async {
                 elevation: 5,
               ),
             ),
+
 
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -238,29 +275,12 @@ Future getImage() async {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8,20,8,20),
+                      padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Serial No."),
-                          widget.listData['serialNumber']=='NA'?
-                         TextFormField(
-            decoration: InputDecoration(
-              hintText: 'Email',
-              hintStyle: TextStyle(color: Colors.black),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(color: Colors.grey)) ,
-
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  borderSide: BorderSide(color: Colors.black)),
-            ),
-            controller: serialNoConroller,
-            style: TextStyle(fontSize: 15),
-          ):
-                          Text(widget.listData['serialNumber'])
-
+                          Text("Fault symptoms"),
+                          Text(widget.listData['faultSymptom'])
                         ],
                       ),
                     ),
@@ -272,7 +292,6 @@ Future getImage() async {
                 elevation: 5,
               ),
             ),
-
 
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -288,44 +307,45 @@ Future getImage() async {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                        Container(
+                          Container(
                             height: 40,
-                           width: 150,
-                            child: TextFormField(controller: engineername,
+                            width: 150,
+                            child: TextFormField(
+                              controller: engineername,
                               decoration: InputDecoration(
                                 hintText: 'Engineer Name',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
-                        Container(
+                          Container(
                             height: 40,
-                           width: 150,
-                            child: TextFormField(controller: engineerContact,
+                            width: 150,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: engineerContact,
                               decoration: InputDecoration(
                                 hintText: 'Engineer Contact',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
@@ -336,46 +356,45 @@ Future getImage() async {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                        Container(
+                          Container(
                             height: 40,
-                           width: 150,
+                            width: 150,
                             child: TextFormField(
                               controller: customername,
                               decoration: InputDecoration(
                                 hintText: 'Customer Name',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
-                        Container(
+                          Container(
                             height: 40,
-                           width: 150,
+                            width: 150,
                             child: TextFormField(
+                              keyboardType: TextInputType.number,
                               controller: customerContact,
                               decoration: InputDecoration(
                                 hintText: 'Customer Contact',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
@@ -387,9 +406,9 @@ Future getImage() async {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("LOAD %"),
-                        Container(
+                          Container(
                             height: 40,
-                           width: 70,
+                            width: 70,
                             child: TextFormField(
                               controller: loadR,
                               keyboardType: TextInputType.number,
@@ -397,22 +416,21 @@ Future getImage() async {
                                 hintText: 'R',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
-                        Container(
+                          Container(
                             height: 40,
-                           width: 70,
+                            width: 70,
                             child: TextFormField(
                               controller: loadY,
                               keyboardType: TextInputType.number,
@@ -420,22 +438,21 @@ Future getImage() async {
                                 hintText: 'Y',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
-                        Container(
+                          Container(
                             height: 40,
-                           width: 70,
+                            width: 70,
                             child: TextFormField(
                               controller: loadB,
                               keyboardType: TextInputType.number,
@@ -443,15 +460,14 @@ Future getImage() async {
                                 hintText: 'B',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
@@ -459,51 +475,56 @@ Future getImage() async {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Text("Battery Charging Volt",style: TextStyle(color: Colors.redAccent[700],fontWeight: FontWeight.bold),),
+                      Text(
+                        "Battery Charging Volt",
+                        style: TextStyle(
+                            color: Colors.redAccent[700],
+                            fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                        Container(
+                          Container(
                             height: 40,
-                           width: 150,
+                            width: 150,
                             child: TextFormField(
+                              keyboardType: TextInputType.number,
                               controller: totalBatteryVolt,
                               decoration: InputDecoration(
                                 hintText: 'Total Battery Volt',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
-                        Container(
+                          Container(
                             height: 40,
-                           width: 150,
+                            width: 150,
                             child: TextFormField(
+                              keyboardType: TextInputType.number,
                               controller: chargingVolt,
                               decoration: InputDecoration(
                                 hintText: ' Charging Volt',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
@@ -514,46 +535,47 @@ Future getImage() async {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                        Container(
+                          Container(
                             height: 40,
-                           width: 150,
+                            width: 150,
                             child: TextFormField(
+                              keyboardType: TextInputType.number,
                               controller: voltAfterFive,
                               decoration: InputDecoration(
                                 hintText: 'Volt After 5 mins',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
                           ),
-                        Container(
+                          Container(
                             height: 40,
-                           width: 150,
+                            width: 150,
                             child: TextFormField(
+                              keyboardType: TextInputType.number,
                               controller: voltAfterTen,
                               decoration: InputDecoration(
                                 hintText: ' Volt After 10 mins',
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.redAccent[700])),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0)),
+                                    borderSide: BorderSide(
+                                        color: Colors.redAccent[700])),
                               ),
                               style: TextStyle(fontSize: 15),
                             ),
@@ -561,166 +583,40 @@ Future getImage() async {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Text("Input Voltage",style: TextStyle(color: Colors.redAccent[700],fontWeight: FontWeight.bold),),
-
-
+                      Text(
+                        "Input Voltage",
+                        style: TextStyle(
+                            color: Colors.redAccent[700],
+                            fontWeight: FontWeight.bold),
+                      ),
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
-                        Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0,0,100,0),
-                              child: Text("R-N"),
-                            ),
-                            Container(
-                                height: 30,
-                               width: 150,
-                                child: TextFormField(
-                                  controller: inputRn,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                          ],
-                        ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
-                                child: Text("Y-N"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  controller: inputYn,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-
                           Column(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
-                                child: Text("B-N"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  controller: inputBn,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
-                                child: Text("N-E"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  controller: inputNe,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("R-N"),
                               ),
                               Container(
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
-                                  controller: inputRn2,
+                                  keyboardType: TextInputType.number,
+                                  controller: inputRn,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
@@ -731,61 +627,63 @@ Future getImage() async {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("Y-N"),
                               ),
                               Container(
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
-                                  controller: inputYn2,
+                                  keyboardType: TextInputType.number,
+                                  controller: inputYn,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ),
                             ],
                           ),
-
                         ],
                       ),
                       SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           Column(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("B-N"),
                               ),
                               Container(
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
-                                  controller: inputBn2,
+                                  keyboardType: TextInputType.number,
+                                  controller: inputBn,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
@@ -796,117 +694,63 @@ Future getImage() async {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
-                                child: Text(""),
-                              ),
-                              Container(
-                                height: 40,
-                                width: 150,
-                                child: Text('')
-                              ),
-                            ],
-                          ),
-
-                        ],
-                      ),
-
-
-                      SizedBox(height: 10),
-
-                      Text("Output Voltage",style: TextStyle(color: Colors.redAccent[700],fontWeight: FontWeight.bold),),
-
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
-                                child: Text("N-R"),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                child: Text("N-E"),
                               ),
                               Container(
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
-                                  controller: outputNr,
+                                  keyboardType: TextInputType.number,
+                                  controller: inputNe,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ),
                             ],
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
-                                child: Text("N-S"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  controller: outputNs,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-
                         ],
                       ),
                       SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           Column(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
-                                child: Text("N-T"),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                child: Text("R-N"),
                               ),
                               Container(
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
-                                  controller: outputNt,
+                                  keyboardType: TextInputType.number,
+                                  controller: inputRn2,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
@@ -917,7 +761,197 @@ Future getImage() async {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                child: Text("Y-N"),
+                              ),
+                              Container(
+                                height: 30,
+                                width: 150,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: inputYn2,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                child: Text("B-N"),
+                              ),
+                              Container(
+                                height: 30,
+                                width: 150,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: inputBn2,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                child: Text(""),
+                              ),
+                              Container(
+                                  height: 40, width: 150, child: Text('')),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Output Voltage",
+                        style: TextStyle(
+                            color: Colors.redAccent[700],
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                child: Text("N-R"),
+                              ),
+                              Container(
+                                height: 30,
+                                width: 150,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: outputNr,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                child: Text("N-S"),
+                              ),
+                              Container(
+                                height: 30,
+                                width: 150,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: outputNs,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                child: Text("N-T"),
+                              ),
+                              Container(
+                                height: 30,
+                                width: 150,
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  controller: outputNt,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5.0)),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("N-E"),
                               ),
                               Container(
@@ -925,53 +959,54 @@ Future getImage() async {
                                 width: 150,
                                 child: TextFormField(
                                   controller: outputNe,
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ),
                             ],
                           ),
-
                         ],
                       ),
                       SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           Column(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("R-T"),
                               ),
                               Container(
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  keyboardType: TextInputType.number,
                                   controller: outputRt,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
@@ -982,113 +1017,113 @@ Future getImage() async {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("S-T"),
                               ),
                               Container(
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  keyboardType: TextInputType.number,
                                   controller: outputSt,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ),
                             ],
                           ),
-
                         ],
                       ),
                       SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           Column(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("R-T"),
                               ),
                               Container(
                                 height: 30,
                                 width: 150,
                                 child: TextFormField(
+                                  keyboardType: TextInputType.number,
                                   controller: outputRt2,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                     focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5.0)),
-                                        borderSide:
-                                        BorderSide(color: Colors.redAccent[700])),
+                                        borderSide: BorderSide(
+                                            color: Colors.redAccent[700])),
                                   ),
                                   style: TextStyle(fontSize: 15),
                                 ),
                               ),
                             ],
                           ),
+
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,100,0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text(""),
                               ),
                               Container(
-                                  height: 30,
-                                  width: 150,
-                                  child: Text('')
-                              ),
+                                  height: 30, width: 150, child: Text('')),
                             ],
                           ),
-
                         ],
                       ),
-                      SizedBox(height: 10,),
-                        _selectedLocation=='Dusty'?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      SizedBox(
+                        height: 10,
+                      ),
 
-                        children: <Widget>[
-                          DropdownButton(
-                            hint: Text('Site Condition'), // Not necessary for Option 1
-                            value: _selectedLocation,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedLocation = newValue;
-                              });
-                            },
-                            items: _locations.map((location) {
-                              print(_selectedLocation);
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          ),
-                        
-                             RaisedButton(
-
-                                  onPressed: (){
+                      _selectedLocation == 'Dusty'
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                DropdownButton(
+                                  hint: Text(
+                                      'Site Condition'), // Not necessary for Option 1
+                                  value: _selectedLocation,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      _selectedLocation = newValue;
+                                    });
+                                  },
+                                  items: _locations.map((location) {
+                                    print(_selectedLocation);
+                                    return DropdownMenuItem(
+                                      child: new Text(location),
+                                      value: location,
+                                    );
+                                  }).toList(),
+                                ),
+                                RaisedButton(
+                                  onPressed: () {
                                     getImage();
                                   },
-
                                   child: Text(
                                     "Select",
                                     style: TextStyle(
@@ -1097,51 +1132,90 @@ Future getImage() async {
                                     ),
                                   ),
                                 ),
+                                Container(
+                                    width: 100.0,
+                                    height: 100.0,
+                                    child: AppConfig.image != null
+                                        ? Image.file(AppConfig.image,
+                                            fit: BoxFit.fitWidth,
+                                            height: 114,
+                                            width: 114)
+                                        : new Container(
+                                            width: 100.0,
+                                            height: 100.0,
+                                            decoration: new BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: new DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: new AssetImage(
+                                                    "images/cyberpower-logo.jpg"),
+                                              ),
+                                            )))
+                              ],
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                DropdownButton(
+                                  hint: Text(
+                                      'Site Condition'), // Not necessary for Option 1
+                                  value: _selectedLocation,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      _selectedLocation = newValue;
+                                    });
+                                  },
+                                  items: _locations.map((location) {
+                                    print(_selectedLocation);
+                                    return DropdownMenuItem(
+                                      child: new Text(location),
+                                      value: location,
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                      SizedBox(
+                        height: 10,
+                      ),
 
-                          Container(
-                                          width: 100.0,
-                                          height: 100.0,
-                                          child: AppConfig.image!=null?Image.file(AppConfig.image,
-                                          fit: BoxFit.fitWidth,
-                                          height: 114,
-                                          width: 114):new Container( width: 100.0,
-                                          height: 100.0,
-                                          decoration: new BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image: new AssetImage(
-                                                  "images/cyberpower-logo.jpg"),
-                                            ),
-                                          )
-                                          )
-                                          
-                                          )
-                          
-                        ],
-                      ): Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                         children: <Widget>[
-                          DropdownButton(
-                            hint: Text('Site Condition'), // Not necessary for Option 1
-                            value: _selectedLocation,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedLocation = newValue;
-                              });
-                            },
-                            items: _locations.map((location) {
-                              print(_selectedLocation);
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          ),
+                          StatusDropDown(),
+                          Text("")
                         ],
-                      )
+                      ),
 
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        child: Center(child: Text("Observation And Work Done")),
+                      ),
+                      TextFormField(
+
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        controller: observationAndWorkDone,
+                        decoration: InputDecoration(
+                          hintText: "Write something here....",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.redAccent[700])),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.redAccent[700])),
+                        ),
+                        style: TextStyle(fontSize: 15),
+                      ),
 
                     ],
                   ),
@@ -1167,5 +1241,62 @@ Future getImage() async {
         ),
       ),
     );
+  }
+}
+
+
+ class StatusDropDown extends StatefulWidget {
+  @override
+  _StatusDropDownState createState() {
+
+    return _StatusDropDownState();
+  }
+}
+
+class _StatusDropDownState extends State<StatusDropDown> {
+  String _value;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return DropdownButton<String>(
+
+      items: [
+        DropdownMenuItem<String>(
+          child: Text('Pending'),
+          value: 'pending',
+        ),
+        DropdownMenuItem<String>(
+          child: Text('Closed'),
+          value: 'closed',
+        ),
+
+      ],
+      onChanged: (String value) {
+        setState(() {
+          _value = value;
+        });
+      },
+      hint: Text('Select Status'),
+      value: _value,
+    );
+  }
+
+
+  void choiceAction(String choice){
+    if(choice == Constants.Logout){
+    RaisedButton(
+      onPressed: () async {
+        //after the login REST api call && response code ==200
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('emailAddress', 'useremail@gmail.com');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
+      },
+    );
+
+    }
+
+
   }
 }

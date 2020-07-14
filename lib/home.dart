@@ -105,7 +105,7 @@ class _OpenCardsState extends State<OpenCards> {
       print([convertDataToJson[i]['status'], convertDataToJson[i]['status'] == status]);
       print("@@@@@@@@@@");
       if( convertDataToJson[i]['status'] == status)
-      filterlist.addAll([convertDataToJson[i] ]);
+        filterlist.addAll([convertDataToJson[i] ]);
     }
 
     setState(() {
