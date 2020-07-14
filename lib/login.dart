@@ -6,6 +6,7 @@ import 'package:cyberpower/service/login_service.dart';
 import 'package:cyberpower/util/http_exception_dialog.dart';
 import 'package:cyberpower/home.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -24,6 +25,9 @@ class _LoginPageState extends State<LoginPage> {
   final LoginService loginservice = new LoginService();
 
   void userLogin(String userEmail, String userPassword) async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('emailAddress', userEmail);
     setState(() {
       _loading = true;
     });

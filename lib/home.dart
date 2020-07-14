@@ -1,7 +1,9 @@
+import 'package:cyberpower/login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:cyberpower/Form.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -40,6 +42,7 @@ class _HomeState extends State<Home> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        
         body: DefaultTabController(
           length: 3,
           child: Scaffold(
@@ -50,10 +53,22 @@ class _HomeState extends State<Home> {
                 width: 150,
               ),
               actions: <Widget>[
-                Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                ),
+                PopupMenuButton<String>(
+           onSelected: choiceAction,
+            itemBuilder: (BuildContext context){
+              return Constants.choices.map((String choice){
+                
+                return PopupMenuItem<String>(
+                  value: choice,
+                    child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+                // Icon(
+                //   Icons.more_vert,
+                //   color: Colors.white,
+                // ),
                 SizedBox(width: 20)
               ],
               bottom: TabBar(
@@ -77,6 +92,20 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+   void choiceAction(String choice){
+    if(choice == Constants.Logout){
+    RaisedButton(
+      onPressed: () async {
+        //after the login REST api call && response code ==200
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.clear();
+        await Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
+      },
+    );
+
+    }
   }
 }
 
@@ -425,6 +454,7 @@ class _ClosedCardsState extends State<ClosedCards> {
           );
         });
   }
+  
 }
 
 

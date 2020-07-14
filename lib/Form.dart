@@ -9,7 +9,7 @@ import 'service/buy_fragment_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-
+ String _value;
 
 
 class Constants{
@@ -109,7 +109,8 @@ class _serviceFormState extends State<serviceForm> {
       "siteCondition": _selectedLocation,
       "sitePhoto1": "Test",
       "sitePhoto2": "Test",
-      "sitePhoto3": "Test"
+      "sitePhoto3": "Test",
+      "status":_value
     };
     print('print body');
     print(body);
@@ -1254,7 +1255,7 @@ class _serviceFormState extends State<serviceForm> {
 }
 
 class _StatusDropDownState extends State<StatusDropDown> {
-  String _value;
+ 
 
   @override
   Widget build(BuildContext context) {
