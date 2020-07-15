@@ -6,6 +6,8 @@ import 'package:cyberpower/Form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
+  String idd = "";
+  Home({Key key,this.idd}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -13,8 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<dynamic> notList = new List();
 
-  final String url =
-      "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
+  
   List Data;
 
   @override
@@ -24,6 +25,8 @@ class _HomeState extends State<Home> {
   }
 
   Future<String> getJsonData() async {
+    final String url =
+      "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo="+widget.idd;
     var response = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
 

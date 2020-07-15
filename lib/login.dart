@@ -18,6 +18,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String idd;
   Flushbar flush;
   TextEditingController loginEmailController = new TextEditingController();
   TextEditingController loginPasswordController = new TextEditingController();
@@ -86,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
       print(user);
     } else {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
+          context, MaterialPageRoute(builder: (context) => Home(idd:user['id'].toString())));
     }
   }
 
