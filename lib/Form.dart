@@ -5,6 +5,7 @@ import 'package:cyberpower/login.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'config/AppConfig.dart';
+import 'package:cyberpower/service/login_service.dart';
 import 'service/buy_fragment_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,11 +70,14 @@ class _serviceFormState extends State<serviceForm> {
 
   List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
   String _selectedLocation; // Option 2
-
+final LoginService loginservice = new LoginService();
   void saveButton() async {
     var url = AppConfig.apiUrl + AppConfig.form;
 
-    Map<String, String> headers = {};
+    Map<String, String> headers = {
+  //     'Content-type': 'application/json',
+  // 'Accept': 'application/json',
+    };
     Map<String, String> body = {
       "callLogNumber": "C062020C0001",
       "fsrNumber": "10000",
@@ -116,14 +120,14 @@ class _serviceFormState extends State<serviceForm> {
     print(body);
     var data;
     try {
-      data = await buyservice.postData(url, headers, body, context);
+      data = await loginservice.getUserLogin(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
     } catch (e) {}
+    print("dataaaaaaa");
     print(data);
     setState(() {
       _loading = true;
-      Navigator.of(context)
-          .push(new MaterialPageRoute(builder: (context) => new Home()));
+     
     });
   }
 
