@@ -424,25 +424,25 @@ class _ClosedCardsState extends State<ClosedCards> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(""),
-                                RaisedButton(
-                                  color: Colors.redAccent[700],
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm( listData: notList[i])));
-                                  },
-                                  child: Text(
-                                    "Service",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+//                          Padding(
+//                            padding: const EdgeInsets.all(8.0),
+//                            child: Row(
+//                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                              children: <Widget>[
+//                                Text(""),
+//                                RaisedButton(
+//                                  color: Colors.redAccent[700],
+//                                  onPressed: () {
+//                                    Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm( listData: notList[i])));
+//                                  },
+//                                  child: Text(
+//                                    "Service",
+//                                    style: TextStyle(color: Colors.white),
+//                                  ),
+//                                )
+//                              ],
+//                            ),
+//                          ),
                         ],
                       ),
                       shape: RoundedRectangleBorder(
