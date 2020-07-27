@@ -18,7 +18,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String idd;
+  bool _rememberMe = true;
   Flushbar flush;
   TextEditingController loginEmailController = new TextEditingController();
   TextEditingController loginPasswordController = new TextEditingController();
@@ -26,9 +26,9 @@ class _LoginPageState extends State<LoginPage> {
   final LoginService loginservice = new LoginService();
 
   void userLogin(String userEmail, String userPassword) async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
+    //  SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setString('emailAddress', userEmail);
+    // prefs.setString('emailAddress', userEmail);
     setState(() {
       _loading = true;
     });
@@ -86,9 +86,29 @@ class _LoginPageState extends State<LoginPage> {
       print("userrrr");
       print(user);
     } else {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home(idd:user['id'].toString())));
+       await _saveCredentisla(loginEmailController.text, loginPasswordController.text);
+      setState(() {
+        print("Login Success");
+         AppConfig.userID=user['id'].toString();
+
+
+
+           Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Home()));
+          
+        
+      });
+    
     }
+  }
+    _saveCredentisla(email, pass) async {
+    if(_rememberMe){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('emailAddress', email);
+      await prefs.setString('pass', pass);
+    }
+    
+    return true;
   }
 
   Widget _entryFieldEmail(String title, {bool isPassword = false}) {

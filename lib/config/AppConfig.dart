@@ -9,4 +9,5 @@ class AppConfig{
     static var httpStatusCodeRec;
     static String loginData = "";
     static var image;
+    static String userID = "";
 }

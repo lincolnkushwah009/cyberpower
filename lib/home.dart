@@ -1,3 +1,4 @@
+import 'package:cyberpower/config/AppConfig.dart';
 import 'package:cyberpower/login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -6,8 +7,6 @@ import 'package:cyberpower/Form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
-  String idd = "";
-  Home({Key key,this.idd}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -26,7 +25,7 @@ class _HomeState extends State<Home> {
 
   Future<String> getJsonData() async {
     final String url =
-      "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo="+widget.idd;
+      "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo="+AppConfig.userID;
     var response = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
 
@@ -119,7 +118,7 @@ class OpenCards extends StatefulWidget {
 }
 class _OpenCardsState extends State<OpenCards> {
   List<dynamic> notList = new List();
-  final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
+  final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo="+AppConfig.userID;
   @override
   void initState() {
     super.initState();
@@ -234,7 +233,7 @@ class PendingCards extends StatefulWidget {
 }
 class _PendingCardsState extends State<PendingCards> {
   List<dynamic> notList = new List();
-  final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
+  final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo="+AppConfig.userID;
   @override
   void initState() {
     super.initState();
@@ -351,7 +350,7 @@ class ClosedCards extends StatefulWidget {
 }
 class _ClosedCardsState extends State<ClosedCards> {
   List<dynamic> notList = new List();
-  final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=1";
+  final String url = "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo="+AppConfig.userID;
   @override
   void initState() {
     super.initState();

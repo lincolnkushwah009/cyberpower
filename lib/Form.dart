@@ -64,7 +64,6 @@ class _serviceFormState extends State<serviceForm> {
   TextEditingController outputRt = new TextEditingController();
   TextEditingController outputSt = new TextEditingController();
   TextEditingController observationAndWorkDone = new TextEditingController();
-  TextEditingController spareUsed = new TextEditingController();
   bool _loading = false;
   TextEditingController outputRt2 = new TextEditingController();
   final BuyService buyservice = new BuyService();
@@ -89,7 +88,6 @@ final LoginService loginservice = new LoginService();
       "siteIssue": "Test Site Issue",
       "faultDescription": "Wire Broken",
       "observationAndWorkDone": observationAndWorkDone.text,
-      "spareUsed":spareUsed.text,
       "ivrn": inputRn.text,
       "ivrn2": inputRn2.text,
       "ivyn": inputYn.text,
@@ -206,12 +204,7 @@ final LoginService loginservice = new LoginService();
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("Client Address"),
-                          Flexible(
-                            child: Container(
-                              child: Text(widget.listData['address'], overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
+                          Text(widget.listData['address']),
                         ],
                       ),
                     ),
@@ -1199,41 +1192,6 @@ final LoginService loginservice = new LoginService();
                           Text("")
                         ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-
-
-                      Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        child: Center(child: Text("Spare Used if any")),
-                      ),
-
-                      TextFormField(
-
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        controller: spareUsed,
-                        decoration: InputDecoration(
-                          hintText: "Write something here....",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0)),
-                              borderSide: BorderSide(
-                                  color: Colors.redAccent[700])),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0)),
-                              borderSide: BorderSide(
-                                  color: Colors.redAccent[700])),
-                        ),
-                        style: TextStyle(fontSize: 15),
-                      ),
-
-
-
-
 
                       SizedBox(
                         height: 10,
@@ -1243,7 +1201,6 @@ final LoginService loginservice = new LoginService();
                         const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: Center(child: Text("Observation And Work Done")),
                       ),
-
                       TextFormField(
 
                         keyboardType: TextInputType.multiline,

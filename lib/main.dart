@@ -44,6 +44,8 @@ void main() async{
       .then((_) => runApp(
       MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: email==null?LoginPage():Home())));
+          home: email==null?LoginPage():Home())
+          )
+          );
 }
 
