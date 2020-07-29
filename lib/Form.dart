@@ -79,12 +79,12 @@ final LoginService loginservice = new LoginService();
   // 'Accept': 'application/json',
     };
     Map<String, String> body = {
-      "callLogNumber": "C062020C0001",
-      "fsrNumber": "10000",
-      "fsrDate": "2020-07-01",
-      "fsrTime": "08:00:00",
+      "callLogNumber": widget.listData['callLogId'],
+      "fsrNumber": widget.listData['fsrNo'],
+      "fsrDate": widget.listData['logDate'],
+      "fsrTime": widget.listData['logTime'],
       "upsSerialNo": "15C9O3000977",
-      "batterySerialNo": "NA",
+      "batterySerialNo": widget.listData['batterySerialNo'],
       "siteIssue": "Test Site Issue",
       "faultDescription": "Wire Broken",
       "observationAndWorkDone": observationAndWorkDone.text,
