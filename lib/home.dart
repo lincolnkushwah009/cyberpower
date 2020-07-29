@@ -101,16 +101,20 @@ class _HomeState extends State<Home> {
   }
 
 
-  void choiceAction(String choice){
+  void choiceAction(String choice)async{
     if(choice == Constant. SignOut ){
-      RaisedButton(
-        onPressed: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
+      // RaisedButton(
+      //   onPressed: () async {
+      //     SharedPreferences prefs = await SharedPreferences.getInstance();
+      //     await prefs.clear();
+      //     await Navigator.pushReplacement(context,
+      //         MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
+      //   },
+      // );
+       SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.clear();
           await Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
-        },
-      );
       print('SignOut');
 
     }
