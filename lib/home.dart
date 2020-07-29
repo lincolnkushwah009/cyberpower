@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:cyberpower/Form.dart';
+import 'package:cyberpower/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config/AppConfig.dart';
@@ -64,20 +65,15 @@ class _HomeState extends State<Home> {
               actions: <Widget>[
                 PopupMenuButton<String>(
                   onSelected: choiceAction,
-                  itemBuilder: (BuildContext context) {
-                    return Constants.choices.map((String choice) {
+                  itemBuilder: (BuildContext context){
+                    return Constant.choices.map((String choice){
                       return PopupMenuItem<String>(
                         value: choice,
                         child: Text(choice),
                       );
                     }).toList();
                   },
-                ),
-                // Icon(
-                //   Icons.more_vert,
-                //   color: Colors.white,
-                // ),
-                SizedBox(width: 20)
+                )
               ],
               bottom: TabBar(
                 labelColor: Colors.white,
@@ -104,19 +100,28 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void choiceAction(String choice) {
-    if (choice == Constants.Logout) {
+
+  void choiceAction(String choice){
+    if(choice == Constant. SignOut ){
       RaisedButton(
         onPressed: () async {
-          //after the login REST api call && response code ==200
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.clear();
           await Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
         },
       );
+      print('SignOut');
+
     }
+//    else if(choice == Constant.Subscribe){
+//      print('Subscribe');
+//    }else if(choice == Constant.Settings){
+//      print('Settings');
+//    }
   }
+
+
 }
 
 class OpenCards extends StatefulWidget {
@@ -467,25 +472,6 @@ class _ClosedCardsState extends State<ClosedCards> {
                               ],
                             ),
                           ),
-//                          Padding(
-//                            padding: const EdgeInsets.all(8.0),
-//                            child: Row(
-//                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                              children: <Widget>[
-//                                Text(""),
-//                                RaisedButton(
-//                                  color: Colors.redAccent[700],
-//                                  onPressed: () {
-//                                    Navigator.push(context, MaterialPageRoute(builder: (context) => serviceForm( listData: notList[i])));
-//                                  },
-//                                  child: Text(
-//                                    "Service",
-//                                    style: TextStyle(color: Colors.white),
-//                                  ),
-//                                )
-//                              ],
-//                            ),
-//                          ),
                         ],
                       ),
                       shape: RoundedRectangleBorder(
@@ -499,5 +485,14 @@ class _ClosedCardsState extends State<ClosedCards> {
             ),
           );
         });
+
+
   }
+
+
 }
+
+
+
+
+
