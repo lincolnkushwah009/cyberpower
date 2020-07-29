@@ -8,6 +8,8 @@ import 'package:cyberpower/home.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'config/AppConfig.dart';
+
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
 
@@ -86,28 +88,27 @@ class _LoginPageState extends State<LoginPage> {
       print("userrrr");
       print(user);
     } else {
-       await _saveCredentisla(loginEmailController.text, loginPasswordController.text);
-      setState(() {
+      await _saveCredentisla(
+          loginEmailController.text, loginPasswordController.text);
+      setState(() async {
         print("Login Success");
-         AppConfig.userID=user['id'].toString();
+        AppConfig.userID = user['id'].toString();
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userid', AppConfig.userID);
 
-
-
-           Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
-          
-        
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Home()));
       });
-    
     }
   }
-    _saveCredentisla(email, pass) async {
-    if(_rememberMe){
+
+  _saveCredentisla(email, pass) async {
+    if (_rememberMe) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('emailAddress', email);
       await prefs.setString('pass', pass);
     }
-    
+
     return true;
   }
 
@@ -228,7 +229,6 @@ class _LoginPageState extends State<LoginPage> {
                   _emailPasswordWidget(),
                   SizedBox(height: 20),
                   _submitButton(),
-
                 ],
               ),
             ),
