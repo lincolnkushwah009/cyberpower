@@ -8,6 +8,7 @@ import 'package:cyberpower/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config/AppConfig.dart';
+import 'login.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -63,6 +64,8 @@ class _HomeState extends State<Home> {
                 width: 150,
               ),
               actions: <Widget>[
+
+
                 PopupMenuButton<String>(
                   onSelected: choiceAction,
                   itemBuilder: (BuildContext context){
@@ -103,6 +106,8 @@ class _HomeState extends State<Home> {
 
   void choiceAction(String choice){
     if(choice == Constant. SignOut ){
+
+
       RaisedButton(
         onPressed: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();

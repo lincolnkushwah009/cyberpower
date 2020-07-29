@@ -29,12 +29,17 @@ dependencies:
   image_picker: ^0.6.7+2
   video_player: ^0.10.11+1
   flushbar: 1.9.1
+  flutter_launcher_icons: ^0.7.5
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flutter_icons:
+  image_path: "images/CPicon.jpeg"
+  android: true
+  ios: true
 
 
 # For information on the generic Dart part of this file, see the
