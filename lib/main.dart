@@ -36,8 +36,8 @@ void main() async {
   AppConfig.userID = prefs.getString('userid');
   print(email);
   SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => runApp(MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: email == null ? LoginPage() : Home())));
+      debugShowCheckedModeBanner: false,
+      home: email == null ? LoginPage() : Home())));
 }

@@ -33,6 +33,42 @@ class serviceForm extends StatefulWidget {
 }
 
 class _serviceFormState extends State<serviceForm> {
+   void _showDialog() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: Center(
+                child: new Text(
+              "Success",
+              style: TextStyle(color: Colors.green),
+            )),
+            content: new Text(
+                "Your form successfully sent"),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new Container(
+                width: 300,
+                child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: Text("Continue"),
+                  textColor: Colors.white,
+                  padding: EdgeInsets.all(16),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (BuildContext ctx) => Home()));
+                  },
+                  color: Colors.red[800],
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
 
 
   static var images;
@@ -64,6 +100,7 @@ class _serviceFormState extends State<serviceForm> {
   TextEditingController outputRt = new TextEditingController();
   TextEditingController outputSt = new TextEditingController();
   TextEditingController observationAndWorkDone = new TextEditingController();
+  TextEditingController spareUsed = new TextEditingController();
   bool _loading = false;
   TextEditingController outputRt2 = new TextEditingController();
   final BuyService buyservice = new BuyService();
@@ -88,6 +125,7 @@ final LoginService loginservice = new LoginService();
       "siteIssue": "Test Site Issue",
       "faultDescription": "Wire Broken",
       "observationAndWorkDone": observationAndWorkDone.text,
+      "spareUsed": spareUsed.text,
       "ivrn": inputRn.text,
       "ivrn2": inputRn2.text,
       "ivyn": inputYn.text,
@@ -122,6 +160,7 @@ final LoginService loginservice = new LoginService();
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
+      _showDialog();
     } catch (e) {}
     print("dataaaaaaa");
     print(data);
@@ -1196,6 +1235,37 @@ final LoginService loginservice = new LoginService();
                       SizedBox(
                         height: 10,
                       ),
+
+                      Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        child: Center(child: Text("Spare Used if any ")),
+                      ),
+                      TextFormField(
+
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        controller: spareUsed,
+                        decoration: InputDecoration(
+                          hintText: "Write something here....",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.redAccent[700])),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.redAccent[700])),
+                        ),
+                        style: TextStyle(fontSize: 15),
+                      ),
+
+
+                      SizedBox(
+                        height: 10,
+                      ),
                       Padding(
                         padding:
                         const EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -1269,11 +1339,11 @@ class _StatusDropDownState extends State<StatusDropDown> {
       items: [
         DropdownMenuItem<String>(
           child: Text('Pending'),
-          value: 'pending',
+          value: 'Pending',
         ),
         DropdownMenuItem<String>(
           child: Text('Closed'),
-          value: 'closed',
+          value: 'Closed',
         ),
 
       ],
