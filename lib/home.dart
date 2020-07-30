@@ -8,7 +8,6 @@ import 'package:cyberpower/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config/AppConfig.dart';
-import 'login.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -64,8 +63,6 @@ class _HomeState extends State<Home> {
                 width: 150,
               ),
               actions: <Widget>[
-
-
                 PopupMenuButton<String>(
                   onSelected: choiceAction,
                   itemBuilder: (BuildContext context){
@@ -82,10 +79,9 @@ class _HomeState extends State<Home> {
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.white70,
                 tabs: [
-                  Tab(
-                    text: 'Open',
-                  ),
+                  Tab(text: 'Open',),
                   Tab(text: 'Pending'),
+
                   Tab(text: 'Closed'),
                 ],
               ),
@@ -94,6 +90,7 @@ class _HomeState extends State<Home> {
               children: [
                 OpenCards(),
                 PendingCards(),
+
                 ClosedCards(),
               ],
             ),
@@ -104,18 +101,12 @@ class _HomeState extends State<Home> {
   }
 
 
-  void choiceAction(String choice){
+  void choiceAction(String choice)async{
     if(choice == Constant. SignOut ){
-
-
-      RaisedButton(
-        onPressed: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.clear();
-          await Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
-        },
-      );
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+      await Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
       print('SignOut');
 
     }
@@ -166,7 +157,6 @@ class _OpenCardsState extends State<OpenCards> {
       if (convertDataToJson[i]['status'] == status)
         filterlist.addAll([convertDataToJson[i]]);
     }
-
     setState(() {
       notList = filterlist; // convertDataToJson;
     });
@@ -496,8 +486,3 @@ class _ClosedCardsState extends State<ClosedCards> {
 
 
 }
-
-
-
-
-
