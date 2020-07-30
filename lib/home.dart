@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
   initProcess(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     AppConfig.userID = prefs.getString('userid');
-    getJsonData();
+    // getJsonData();
   }
 
   Future<String> getJsonData() async {
@@ -40,10 +40,8 @@ class _HomeState extends State<Home> {
 
     print(response.body);
     var convertDataToJson = json.decode(response.body);
-
-    setState(() {
-      Data = convertDataToJson['result'];
-    });
+    Data = convertDataToJson['result'];
+    setState(() {});
   }
 
   @override
@@ -65,8 +63,8 @@ class _HomeState extends State<Home> {
               actions: <Widget>[
                 PopupMenuButton<String>(
                   onSelected: choiceAction,
-                  itemBuilder: (BuildContext context){
-                    return Constant.choices.map((String choice){
+                  itemBuilder: (BuildContext context) {
+                    return Constant.choices.map((String choice) {
                       return PopupMenuItem<String>(
                         value: choice,
                         child: Text(choice),
@@ -79,9 +77,10 @@ class _HomeState extends State<Home> {
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.white70,
                 tabs: [
-                  Tab(text: 'Open',),
+                  Tab(
+                    text: 'Open',
+                  ),
                   Tab(text: 'Pending'),
-
                   Tab(text: 'Closed'),
                 ],
               ),
@@ -90,7 +89,6 @@ class _HomeState extends State<Home> {
               children: [
                 OpenCards(),
                 PendingCards(),
-
                 ClosedCards(),
               ],
             ),
@@ -100,15 +98,21 @@ class _HomeState extends State<Home> {
     );
   }
 
-
-  void choiceAction(String choice)async{
-    if(choice == Constant. SignOut ){
+  void choiceAction(String choice) async {
+    if (choice == Constant.SignOut) {
+      // RaisedButton(
+      //   onPressed: () async {
+      //     SharedPreferences prefs = await SharedPreferences.getInstance();
+      //     await prefs.clear();
+      //     await Navigator.pushReplacement(context,
+      //         MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
+      //   },
+      // );
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.clear();
       await Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
       print('SignOut');
-
     }
 //    else if(choice == Constant.Subscribe){
 //      print('Subscribe');
@@ -116,8 +120,6 @@ class _HomeState extends State<Home> {
 //      print('Settings');
 //    }
   }
-
-
 }
 
 class OpenCards extends StatefulWidget {
@@ -127,21 +129,24 @@ class OpenCards extends StatefulWidget {
 
 class _OpenCardsState extends State<OpenCards> {
   List<dynamic> notList = new List();
-  final String url =
-      "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=" +
-          AppConfig.userID;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => initProcess(context));
   }
 
-  initProcess(context) {
+  initProcess(context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    AppConfig.userID = prefs.getString('userid');
     this.getJsonData('Open');
   }
 
   Future<String> getJsonData(status) async {
     print(AppConfig.userID);
+    final String url =
+        "http://52.163.212.84:7000/getAllCallLogByEngineer?assignedTo=" +
+            AppConfig.userID;
     var response = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
 
@@ -157,6 +162,7 @@ class _OpenCardsState extends State<OpenCards> {
       if (convertDataToJson[i]['status'] == status)
         filterlist.addAll([convertDataToJson[i]]);
     }
+
     setState(() {
       notList = filterlist; // convertDataToJson;
     });
@@ -480,9 +486,5 @@ class _ClosedCardsState extends State<ClosedCards> {
             ),
           );
         });
-
-
   }
-
-
 }

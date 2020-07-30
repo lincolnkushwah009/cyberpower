@@ -37,7 +37,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: "images/CPicon.jpeg"
+  image_path: "images/CPicon.png"
   android: true
   ios: true
 
