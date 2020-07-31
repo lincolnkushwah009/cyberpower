@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cyberpower/home.dart';
 import 'package:cyberpower/login.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
  String _value;
 
-
 class Constants{
   static const String Logout = 'Logout';
 
@@ -23,8 +21,9 @@ class Constants{
   ];
 }
 
-
 class serviceForm extends StatefulWidget {
+
+
   var listData;
   serviceForm({this.listData});
 
@@ -46,7 +45,7 @@ class _serviceFormState extends State<serviceForm> {
               style: TextStyle(color: Colors.green),
             )),
             content: new Text(
-                "Your form successfully sent"),
+                "FSR Updated Successfully"),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               new Container(
@@ -120,10 +119,8 @@ final LoginService loginservice = new LoginService();
       "fsrNumber": widget.listData['fsrNo'],
       "fsrDate": widget.listData['logDate'],
       "fsrTime": widget.listData['logTime'],
-      "upsSerialNo": "15C9O3000977",
+      "upsSerialNo": widget.listData['serialNumber'] ,
       "batterySerialNo": widget.listData['batterySerialNo'],
-      "siteIssue": "Test Site Issue",
-      "faultDescription": "Wire Broken",
       "observationAndWorkDone": observationAndWorkDone.text,
       "spareUsed": spareUsed.text,
       "ivrn": inputRn.text,
@@ -147,14 +144,13 @@ final LoginService loginservice = new LoginService();
       "bcV": chargingVolt.text,
       "bvA5": voltAfterFive.text,
       "bvA10": voltAfterTen.text,
-      "callStatus": "Pending",
       "siteCondition": _selectedLocation,
       "sitePhoto1": "Test",
       "sitePhoto2": "Test",
       "sitePhoto3": "Test",
       "status":_value
     };
-    print('print body');
+    print('print body.............................');
     print(body);
     var data;
     try {
@@ -242,8 +238,9 @@ final LoginService loginservice = new LoginService();
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Client Address"),
-                          Text(widget.listData['address']),
+                          Text("Client Address"), SizedBox(width: 10,),
+
+                          Flexible(child: Text(widget.listData['address'])),
                         ],
                       ),
                     ),
@@ -253,9 +250,9 @@ final LoginService loginservice = new LoginService();
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text("UPS Qty"),
-                          Text("0"),
+                          Text(widget.listData['upsUnitQty'].toString() ?? "Empty"),
                           Text("UPS Model"),
-                          Text("XXXXX"),
+                          Text(widget.listData['model']),
                         ],
                       ),
                     ),
