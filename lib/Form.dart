@@ -1301,6 +1301,59 @@ final LoginService loginservice = new LoginService();
               ),
             ),
             SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                        height: 50,
+                        width: 300,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Enter OTP',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                                borderSide: BorderSide(color: Colors.grey)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5.0)),
+                                borderSide: BorderSide(
+                                    color: Colors.redAccent[700])),
+                          ),
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      width: double.infinity,
+                      child: RaisedButton(
+                        color: Colors.red[800],
+                        child: Text(
+                          "Generate OTP",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                        onPressed: () {
+
+                        },
+                      ),
+                    )
+
+                  ],
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 10,
+              ),
+            ),
+            SizedBox(height: 20),
             Container(
               height: 60,
               width: double.infinity,
