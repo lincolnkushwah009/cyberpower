@@ -187,6 +187,22 @@ final LoginService loginservice = new LoginService();
     print(" list data insde single tab");
     print(widget.listData);
     return Scaffold(
+      floatingActionButton:  Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.redAccent[700],        ),
+
+        width: 150.0,
+        height: 40.0,
+        child: new RawMaterialButton(
+          shape: new CircleBorder(),
+          elevation: 3.0,
+          child: Text(
+           "Generate OTP",style: TextStyle(color: Colors.white),
+          ),
+          onPressed: (){},
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.redAccent[700],
         title: Image.asset(
@@ -1336,8 +1352,8 @@ final LoginService loginservice = new LoginService();
                       child: RaisedButton(
                         color: Colors.red[800],
                         child: Text(
-                          "Generate OTP",
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          "Verify OTP",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                         onPressed: () {
 
