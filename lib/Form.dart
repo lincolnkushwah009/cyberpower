@@ -115,6 +115,12 @@ final LoginService loginservice = new LoginService();
   // 'Accept': 'application/json',
     };
     Map<String, String> body = {
+
+
+      "customername": customername.text,
+      "customerContact": customerContact.text,
+      "engineername": engineername.text,
+      "engineerContact": engineerContact.text,
       "callLogNumber": widget.listData['callLogId'],
       "fsrNumber": widget.listData['fsrNo'],
       "fsrDate": widget.listData['logDate'],
