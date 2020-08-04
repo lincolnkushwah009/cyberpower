@@ -7,6 +7,8 @@ import 'config/AppConfig.dart';
 import 'package:cyberpower/service/login_service.dart';
 import 'service/buy_fragment_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flushbar/flushbar.dart';
+
 
 
 String _value;
@@ -25,6 +27,7 @@ class serviceForm extends StatefulWidget {
 
 
   var listData;
+  Flushbar flush;
   serviceForm({this.listData});
 
   @override
@@ -32,6 +35,8 @@ class serviceForm extends StatefulWidget {
 }
 
 class _serviceFormState extends State<serviceForm> {
+  Flushbar flush;
+
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -221,16 +226,43 @@ class _serviceFormState extends State<serviceForm> {
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
-      _showDialog();
+
     } catch (e) {}
     print("dataaaaaaa");
     print(data);
     setState(() {
       _loading = true;
-      data=otpV;
+      if(data=='Invalid'){
+        Flushbar<bool>(
+          mainButton: FlatButton(
+            onPressed: () {
+              flush.dismiss(true);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.yellow,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          borderRadius: 10,
+          message: "invalid OTP",
+          duration: Duration(seconds: 3),
+        )..show(context);
+        otpText=false;
+
+      }
+      else{
+        otpText=true;
+      }
+
+
 
     });
   }
+
+
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -240,9 +272,7 @@ class _serviceFormState extends State<serviceForm> {
     });
   }
 
-//  onPressed: (){
-//  generateOtp();
-//  },
+
 
   @override
   Widget build(BuildContext context) {
@@ -259,14 +289,28 @@ class _serviceFormState extends State<serviceForm> {
         child: new RawMaterialButton(
           shape: new CircleBorder(),
           elevation: 3.0,
-          child: Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Image.asset(
-              "images/OTP-Icon.png",
-            ),
+          child: Text(
+            "Generate \n OTP ",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),
           ),
           onPressed: (){
             generateOtp();
+            Flushbar<bool>(
+              mainButton: FlatButton(
+                onPressed: () {
+                  flush.dismiss(true);
+                },
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.yellow,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              borderRadius: 10,
+              message: "OTP generated successfully",
+              duration: Duration(seconds: 6),
+            )..show(context);
           },
         ),
       ),
@@ -1466,7 +1510,7 @@ class _serviceFormState extends State<serviceForm> {
               ),
             ),
             SizedBox(height: 20),
-            otpV!=null?
+            otpText==true?
             Container(
               height: 60,
               width: double.infinity,
