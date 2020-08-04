@@ -184,7 +184,7 @@ class _serviceFormState extends State<serviceForm> {
       // 'Accept': 'application/json',
     };
     Map<String, String> body = {
-      "customerContact": widget.listData['contactNo'],
+      "customerContact": customerContact.text,
       "fsrNumber": widget.listData['fsrNo'] ,
     };
     print('print body.............................');
