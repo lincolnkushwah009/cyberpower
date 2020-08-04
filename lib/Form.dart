@@ -105,6 +105,7 @@ class _serviceFormState extends State<serviceForm> {
   bool otpText=false;
   TextEditingController outputRt2 = new TextEditingController();
   final BuyService buyservice = new BuyService();
+  String otpV;
 
   List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
   String _selectedLocation; // Option 2
@@ -174,6 +175,64 @@ class _serviceFormState extends State<serviceForm> {
     });
   }
 
+
+  void generateOtp() async {
+    var url = AppConfig.apiUrl + AppConfig.generateOtp;
+
+    Map<String, String> headers = {
+      //     'Content-type': 'application/json',
+      // 'Accept': 'application/json',
+    };
+    Map<String, String> body = {
+      "customerContact": widget.listData['contactNo'],
+      "fsrNumber": widget.listData['fsrNo'] ,
+    };
+    print('print body.............................');
+    print(body);
+    var data;
+    try {
+      data = await loginservice.getUserLogin(url, headers, body, context);
+      data = await data.transform(utf8.decoder).join();
+      _showDialog();
+    } catch (e) {}
+    print("dataaaaaaa");
+    print(data);
+    setState(() {
+      _loading = true;
+
+    });
+  }
+
+
+
+  void verifyOtpp() async {
+    var url = AppConfig.apiUrl + AppConfig.verifyOtp;
+
+    Map<String, String> headers = {
+      //     'Content-type': 'application/json',
+      // 'Accept': 'application/json',
+    };
+    Map<String, String> body = {
+      "fsrNumber": widget.listData['fsrNo'],
+      "otp":otp.text
+    };
+    print('print body.............................');
+    print(body);
+    var data;
+    try {
+      data = await loginservice.getUser(url, headers, body, context);
+      data = await data.transform(utf8.decoder).join();
+      _showDialog();
+    } catch (e) {}
+    print("dataaaaaaa");
+    print(data);
+    setState(() {
+      _loading = true;
+      data=otpV;
+
+    });
+  }
+
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -181,15 +240,6 @@ class _serviceFormState extends State<serviceForm> {
       AppConfig.image = image;
     });
   }
-
-
-
-//  @override
-//  void initState() {
-//    super.initState();
-//    // Start listening to changes
-//    otpText.textc(textListener);
-//  }
 
 
 
@@ -211,7 +261,9 @@ class _serviceFormState extends State<serviceForm> {
           child: Text(
             "Generate OTP",style: TextStyle(color: Colors.white),
           ),
-          onPressed: (){},
+          onPressed: (){
+            generateOtp();
+          },
         ),
       ),
       appBar: AppBar(
@@ -1302,7 +1354,10 @@ class _serviceFormState extends State<serviceForm> {
                         child: Center(child: Text("Observation And Work Done")),
                       ),
                       TextFormField(
-
+                        validator: (val){
+                          if(val == '12345')
+                            otpText=true;
+                        },
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         controller: observationAndWorkDone,
@@ -1339,23 +1394,13 @@ class _serviceFormState extends State<serviceForm> {
                       child: Container(
                         height: 50,
                         width: 300,
-                        child: TextField(
-//                          validator: (val){
-//                            if(val == '12345')
-//                              otpText=true;
-//                          },
-
+                        child: TextFormField(
                           controller: otp,
-                          onChanged: (text){
+                          onTap: (){
                             if(otp.text=='12345'){
                               otpText=true;
-                              print("text $text");
-
                             }
                           },
-
-
-
                           decoration: InputDecoration(
                             hintText: 'Enter OTP',
                             hintStyle: TextStyle(color: Colors.grey),
@@ -1373,7 +1418,7 @@ class _serviceFormState extends State<serviceForm> {
                         ),
                       ),
                     ),
-                    otpText==true?
+                    // otpText==true?
                     Container(
                       height: 40,
                       width: double.infinity,
@@ -1384,27 +1429,28 @@ class _serviceFormState extends State<serviceForm> {
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                         onPressed: () {
-
+                          verifyOtpp();
                         },
                       ),
-                    ):
-                    Container(
-                      height: 40,
-                      width: double.infinity,
-                      child: IgnorePointer(
-                        ignoring: true,
-                        child: RaisedButton(
-                          color: Colors.grey,
-                          child: Text(
-                            "Verify OTP",
-                            style: TextStyle(fontSize: 16, color: Colors.white),
-                          ),
-                          onPressed: () {
-
-                          },
-                        ),
-                      ),
                     )
+                    // :
+                    //  Container(
+                    //   height: 40,
+                    //   width: double.infinity,
+                    //   child: IgnorePointer(
+                    //     ignoring: true,
+                    //                           child: RaisedButton(
+                    //       color: Colors.grey,
+                    //       child: Text(
+                    //         "Verify OTP",
+                    //         style: TextStyle(fontSize: 16, color: Colors.white),
+                    //       ),
+                    //       onPressed: () {
+
+                    //       },
+                    //     ),
+                    //   ),
+                    // )
 
                   ],
                 ),
@@ -1415,9 +1461,9 @@ class _serviceFormState extends State<serviceForm> {
               ),
             ),
             SizedBox(height: 20),
-            otpText==true?
+            otpV!=null?
             Container(
-              height: 40,
+              height: 60,
               width: double.infinity,
               child: RaisedButton(
                 color: Colors.red[800],
@@ -1426,12 +1472,12 @@ class _serviceFormState extends State<serviceForm> {
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 onPressed: () {
-
+                  saveButton();
                 },
               ),
             ):
             Container(
-              height: 40,
+              height: 60,
               width: double.infinity,
               child: IgnorePointer(
                 ignoring: true,
@@ -1442,7 +1488,7 @@ class _serviceFormState extends State<serviceForm> {
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                   onPressed: () {
-
+                    saveButton();
                   },
                 ),
               ),

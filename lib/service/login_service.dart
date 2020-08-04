@@ -26,4 +26,22 @@ class LoginService {
     }
     return response;
   }
+  getUser(url, headers, body, context) async {
+
+    var response;
+
+    try {
+      HttpClient httpClient = new HttpClient();
+      HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+      request.headers.set('content-type', 'application/json');
+      request.add(utf8.encode(json.encode(body)));
+      response = await request.close();
+      // todo - you should check the response.statusCode
+      httpClient.close();
+    } catch(e) {
+      rethrow;
+    }
+    return response;
+  }
+
 }
