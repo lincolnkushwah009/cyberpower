@@ -240,7 +240,9 @@ class _serviceFormState extends State<serviceForm> {
     });
   }
 
-
+//  onPressed: (){
+//  generateOtp();
+//  },
 
   @override
   Widget build(BuildContext context) {
@@ -249,22 +251,26 @@ class _serviceFormState extends State<serviceForm> {
     return Scaffold(
       floatingActionButton:  Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(50.0),
           color: Colors.redAccent[700],        ),
 
-        width: 150.0,
-        height: 40.0,
+        width: 60.0,
+        height: 60.0,
         child: new RawMaterialButton(
           shape: new CircleBorder(),
           elevation: 3.0,
-          child: Text(
-            "Generate OTP",style: TextStyle(color: Colors.white),
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Image.asset(
+              "images/OTP-Icon.png",
+            ),
           ),
           onPressed: (){
             generateOtp();
           },
         ),
       ),
+
       appBar: AppBar(
         backgroundColor: Colors.redAccent[700],
         title: Image.asset(
