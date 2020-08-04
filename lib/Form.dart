@@ -194,13 +194,17 @@ final LoginService loginservice = new LoginService();
 
         width: 150.0,
         height: 40.0,
-        child: new RawMaterialButton(
-          shape: new CircleBorder(),
-          elevation: 3.0,
-          child: Text(
-           "Generate OTP",style: TextStyle(color: Colors.white),
+        child: GestureDetector(
+          onTap: saveButton,
+          child: new RawMaterialButton(
+            shape: new CircleBorder(),
+            elevation: 3.0,
+            child: Text(
+             "Generate OTP",style: TextStyle(color: Colors.white),
+
+            ),
+            onPressed: (){},
           ),
-          onPressed: (){},
         ),
       ),
       appBar: AppBar(

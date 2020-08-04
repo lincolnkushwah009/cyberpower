@@ -10,4 +10,5 @@ class AppConfig{
     static String loginData = "";
     static var image;
     static String userID = "";
+    static final OTP = "";
 }
