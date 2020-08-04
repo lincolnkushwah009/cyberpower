@@ -9,7 +9,7 @@ import 'service/buy_fragment_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
- String _value;
+String _value;
 
 class Constants{
   static const String Logout = 'Logout';
@@ -32,42 +32,42 @@ class serviceForm extends StatefulWidget {
 }
 
 class _serviceFormState extends State<serviceForm> {
-   void _showDialog() {
-      // flutter defined function
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            title: Center(
-                child: new Text(
-              "Success",
-              style: TextStyle(color: Colors.green),
-            )),
-            content: new Text(
-                "FSR Updated Successfully"),
-            actions: <Widget>[
-              // usually buttons at the bottom of the dialog
-              new Container(
-                width: 300,
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                  child: Text("Continue"),
-                  textColor: Colors.white,
-                  padding: EdgeInsets.all(16),
-                  onPressed: () {
-                    Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext ctx) => Home()));
-                  },
-                  color: Colors.red[800],
-                ),
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Center(
+              child: new Text(
+                "Success",
+                style: TextStyle(color: Colors.green),
+              )),
+          content: new Text(
+              "FSR Updated Successfully"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new Container(
+              width: 300,
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: Text("Continue"),
+                textColor: Colors.white,
+                padding: EdgeInsets.all(16),
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (BuildContext ctx) => Home()));
+                },
+                color: Colors.red[800],
               ),
-            ],
-          );
-        },
-      );
-    }
+            ),
+          ],
+        );
+      },
+    );
+  }
 
 
   static var images;
@@ -100,19 +100,21 @@ class _serviceFormState extends State<serviceForm> {
   TextEditingController outputSt = new TextEditingController();
   TextEditingController observationAndWorkDone = new TextEditingController();
   TextEditingController spareUsed = new TextEditingController();
+  TextEditingController otp = new TextEditingController();
   bool _loading = false;
+  bool otpText=false;
   TextEditingController outputRt2 = new TextEditingController();
   final BuyService buyservice = new BuyService();
 
   List<String> _locations = ['Dusty', 'Dust Free', 'AC']; // Option 2
   String _selectedLocation; // Option 2
-final LoginService loginservice = new LoginService();
+  final LoginService loginservice = new LoginService();
   void saveButton() async {
     var url = AppConfig.apiUrl + AppConfig.form;
 
     Map<String, String> headers = {
-  //     'Content-type': 'application/json',
-  // 'Accept': 'application/json',
+      //     'Content-type': 'application/json',
+      // 'Accept': 'application/json',
     };
     Map<String, String> body = {
 
@@ -168,7 +170,7 @@ final LoginService loginservice = new LoginService();
     print(data);
     setState(() {
       _loading = true;
-     
+
     });
   }
 
@@ -179,6 +181,15 @@ final LoginService loginservice = new LoginService();
       AppConfig.image = image;
     });
   }
+
+
+
+//  @override
+//  void initState() {
+//    super.initState();
+//    // Start listening to changes
+//    otpText.textc(textListener);
+//  }
 
 
 
@@ -194,17 +205,13 @@ final LoginService loginservice = new LoginService();
 
         width: 150.0,
         height: 40.0,
-        child: GestureDetector(
-          onTap: saveButton,
-          child: new RawMaterialButton(
-            shape: new CircleBorder(),
-            elevation: 3.0,
-            child: Text(
-             "Generate OTP",style: TextStyle(color: Colors.white),
-
-            ),
-            onPressed: (){},
+        child: new RawMaterialButton(
+          shape: new CircleBorder(),
+          elevation: 3.0,
+          child: Text(
+            "Generate OTP",style: TextStyle(color: Colors.white),
           ),
+          onPressed: (){},
         ),
       ),
       appBar: AppBar(
@@ -305,23 +312,23 @@ final LoginService loginservice = new LoginService();
                           Text("Serial No."),
                           widget.listData['serialNumber'] == 'NA'
                               ? TextFormField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Email',
-                                    hintStyle: TextStyle(color: Colors.black),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                            BorderSide(color: Colors.grey)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide:
-                                            BorderSide(color: Colors.black)),
-                                  ),
-                                  controller: serialNoConroller,
-                                  style: TextStyle(fontSize: 15),
-                                )
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              hintStyle: TextStyle(color: Colors.black),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(5.0)),
+                                  borderSide:
+                                  BorderSide(color: Colors.grey)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(5.0)),
+                                  borderSide:
+                                  BorderSide(color: Colors.black)),
+                            ),
+                            controller: serialNoConroller,
+                            style: TextStyle(fontSize: 15),
+                          )
                               : Text(widget.listData['serialNumber'])
                         ],
                       ),
@@ -384,11 +391,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -406,11 +413,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -433,11 +440,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -455,11 +462,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -484,11 +491,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -506,11 +513,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -528,11 +535,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -563,11 +570,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -585,11 +592,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -613,11 +620,11 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(color: Colors.grey)),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -635,12 +642,12 @@ final LoginService loginservice = new LoginService();
                                 hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                                 focusedBorder: OutlineInputBorder(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0)),
+                                    BorderRadius.all(Radius.circular(5.0)),
                                     borderSide: BorderSide(
                                         color: Colors.redAccent[700])),
                               ),
@@ -664,7 +671,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("R-N"),
                               ),
                               Container(
@@ -695,7 +702,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("Y-N"),
                               ),
                               Container(
@@ -731,7 +738,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("B-N"),
                               ),
                               Container(
@@ -762,7 +769,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("N-E"),
                               ),
                               Container(
@@ -798,7 +805,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("R-N"),
                               ),
                               Container(
@@ -829,7 +836,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("Y-N"),
                               ),
                               Container(
@@ -865,7 +872,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("B-N"),
                               ),
                               Container(
@@ -896,7 +903,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text(""),
                               ),
                               Container(
@@ -920,7 +927,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("N-R"),
                               ),
                               Container(
@@ -951,7 +958,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("N-S"),
                               ),
                               Container(
@@ -987,7 +994,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("N-T"),
                               ),
                               Container(
@@ -1018,7 +1025,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("N-E"),
                               ),
                               Container(
@@ -1054,7 +1061,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("R-T"),
                               ),
                               Container(
@@ -1085,7 +1092,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("S-T"),
                               ),
                               Container(
@@ -1121,7 +1128,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text("R-T"),
                               ),
                               Container(
@@ -1153,7 +1160,7 @@ final LoginService loginservice = new LoginService();
                             children: <Widget>[
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
                                 child: Text(""),
                               ),
                               Container(
@@ -1168,80 +1175,80 @@ final LoginService loginservice = new LoginService();
 
                       _selectedLocation == 'Dusty'
                           ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                DropdownButton(
-                                  hint: Text(
-                                      'Site Condition'), // Not necessary for Option 1
-                                  value: _selectedLocation,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      _selectedLocation = newValue;
-                                    });
-                                  },
-                                  items: _locations.map((location) {
-                                    print(_selectedLocation);
-                                    return DropdownMenuItem(
-                                      child: new Text(location),
-                                      value: location,
-                                    );
-                                  }).toList(),
-                                ),
-                                RaisedButton(
-                                  onPressed: () {
-                                    getImage();
-                                  },
-                                  child: Text(
-                                    "Select",
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                    width: 100.0,
-                                    height: 100.0,
-                                    child: AppConfig.image != null
-                                        ? Image.file(AppConfig.image,
-                                            fit: BoxFit.fitWidth,
-                                            height: 114,
-                                            width: 114)
-                                        : new Container(
-                                            width: 100.0,
-                                            height: 100.0,
-                                            decoration: new BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: new DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: new AssetImage(
-                                                    "images/cyberpower-logo.jpg"),
-                                              ),
-                                            )))
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                DropdownButton(
-                                  hint: Text(
-                                      'Site Condition'), // Not necessary for Option 1
-                                  value: _selectedLocation,
-                                  onChanged: (newValue) {
-                                    setState(() {
-                                      _selectedLocation = newValue;
-                                    });
-                                  },
-                                  items: _locations.map((location) {
-                                    print(_selectedLocation);
-                                    return DropdownMenuItem(
-                                      child: new Text(location),
-                                      value: location,
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          DropdownButton(
+                            hint: Text(
+                                'Site Condition'), // Not necessary for Option 1
+                            value: _selectedLocation,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedLocation = newValue;
+                              });
+                            },
+                            items: _locations.map((location) {
+                              print(_selectedLocation);
+                              return DropdownMenuItem(
+                                child: new Text(location),
+                                value: location,
+                              );
+                            }).toList(),
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              getImage();
+                            },
+                            child: Text(
+                              "Select",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
+                          ),
+                          Container(
+                              width: 100.0,
+                              height: 100.0,
+                              child: AppConfig.image != null
+                                  ? Image.file(AppConfig.image,
+                                  fit: BoxFit.fitWidth,
+                                  height: 114,
+                                  width: 114)
+                                  : new Container(
+                                  width: 100.0,
+                                  height: 100.0,
+                                  decoration: new BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: new AssetImage(
+                                          "images/cyberpower-logo.jpg"),
+                                    ),
+                                  )))
+                        ],
+                      )
+                          : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          DropdownButton(
+                            hint: Text(
+                                'Site Condition'), // Not necessary for Option 1
+                            value: _selectedLocation,
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedLocation = newValue;
+                              });
+                            },
+                            items: _locations.map((location) {
+                              print(_selectedLocation);
+                              return DropdownMenuItem(
+                                child: new Text(location),
+                                value: location,
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
                       SizedBox(
                         height: 10,
                       ),
@@ -1332,7 +1339,23 @@ final LoginService loginservice = new LoginService();
                       child: Container(
                         height: 50,
                         width: 300,
-                        child: TextFormField(
+                        child: TextField(
+//                          validator: (val){
+//                            if(val == '12345')
+//                              otpText=true;
+//                          },
+
+                          controller: otp,
+                          onChanged: (text){
+                            if(otp.text=='12345'){
+                              otpText=true;
+                              print("text $text");
+
+                            }
+                          },
+
+
+
                           decoration: InputDecoration(
                             hintText: 'Enter OTP',
                             hintStyle: TextStyle(color: Colors.grey),
@@ -1350,6 +1373,7 @@ final LoginService loginservice = new LoginService();
                         ),
                       ),
                     ),
+                    otpText==true?
                     Container(
                       height: 40,
                       width: double.infinity,
@@ -1363,6 +1387,23 @@ final LoginService loginservice = new LoginService();
 
                         },
                       ),
+                    ):
+                    Container(
+                      height: 40,
+                      width: double.infinity,
+                      child: IgnorePointer(
+                        ignoring: true,
+                        child: RaisedButton(
+                          color: Colors.grey,
+                          child: Text(
+                            "Verify OTP",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          onPressed: () {
+
+                          },
+                        ),
+                      ),
                     )
 
                   ],
@@ -1374,8 +1415,9 @@ final LoginService loginservice = new LoginService();
               ),
             ),
             SizedBox(height: 20),
+            otpText==true?
             Container(
-              height: 60,
+              height: 40,
               width: double.infinity,
               child: RaisedButton(
                 color: Colors.red[800],
@@ -1384,8 +1426,25 @@ final LoginService loginservice = new LoginService();
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
                 onPressed: () {
-                  saveButton();
+
                 },
+              ),
+            ):
+            Container(
+              height: 40,
+              width: double.infinity,
+              child: IgnorePointer(
+                ignoring: true,
+                child: RaisedButton(
+                  color: Colors.grey,
+                  child: Text(
+                    "Save",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                  onPressed: () {
+
+                  },
+                ),
               ),
             )
           ],
@@ -1396,7 +1455,7 @@ final LoginService loginservice = new LoginService();
 }
 
 
- class StatusDropDown extends StatefulWidget {
+class StatusDropDown extends StatefulWidget {
   @override
   _StatusDropDownState createState() {
 
@@ -1405,7 +1464,7 @@ final LoginService loginservice = new LoginService();
 }
 
 class _StatusDropDownState extends State<StatusDropDown> {
- 
+
 
   @override
   Widget build(BuildContext context) {
@@ -1436,15 +1495,15 @@ class _StatusDropDownState extends State<StatusDropDown> {
 
   void choiceAction(String choice){
     if(choice == Constants.Logout){
-    RaisedButton(
-      onPressed: () async {
-        //after the login REST api call && response code ==200
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('emailAddress', 'useremail@gmail.com');
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
-      },
-    );
+      RaisedButton(
+        onPressed: () async {
+          //after the login REST api call && response code ==200
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('emailAddress', 'useremail@gmail.com');
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext ctx) => LoginPage()));
+        },
+      );
 
     }
 
