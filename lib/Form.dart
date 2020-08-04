@@ -193,7 +193,6 @@ class _serviceFormState extends State<serviceForm> {
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
-      _showDialog();
     } catch (e) {}
     print("dataaaaaaa");
     print(data);
@@ -220,7 +219,7 @@ class _serviceFormState extends State<serviceForm> {
     print(body);
     var data;
     try {
-      data = await loginservice.getUser(url, headers, body, context);
+      data = await loginservice.getUserLogin(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
       _showDialog();
     } catch (e) {}
