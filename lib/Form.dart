@@ -1468,12 +1468,8 @@ class _serviceFormState extends State<serviceForm> {
                         height: 50,
                         width: 300,
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
                           controller: otp,
-                          onTap: (){
-                            if(otp.text=='12345'){
-                              otpText=true;
-                            }
-                          },
                           decoration: InputDecoration(
                             hintText: 'Enter OTP',
                             hintStyle: TextStyle(color: Colors.grey),
