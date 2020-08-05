@@ -27,7 +27,7 @@ class serviceForm extends StatefulWidget {
 
 
   var listData;
-  Flushbar flush;
+  // Flushbar flush;
   serviceForm({this.listData});
 
   @override
@@ -203,6 +203,27 @@ class _serviceFormState extends State<serviceForm> {
     print(data);
     setState(() {
       _loading = true;
+      if(data=='fail'){
+        Flushbar<bool>(
+          mainButton: FlatButton(
+            onPressed: () {
+              flush.dismiss(true);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.yellow,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          borderRadius: 10,
+          message: "OTP Generated Failed",
+          duration: Duration(seconds: 3),
+        )..show(context);
+        otpText=false;
+
+      }
 
     });
   }
@@ -232,7 +253,7 @@ class _serviceFormState extends State<serviceForm> {
     print(data);
     setState(() {
       _loading = true;
-      if(data=='Invalid'){
+      if(data=='invalid'){
         Flushbar<bool>(
           mainButton: FlatButton(
             onPressed: () {
@@ -294,23 +315,26 @@ class _serviceFormState extends State<serviceForm> {
           ),
           onPressed: (){
             generateOtp();
-            Flushbar<bool>(
-              mainButton: FlatButton(
-                onPressed: () {
-                  flush.dismiss(true);
-                },
-                child: Text(
-                  'OK',
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.yellow,
-                      fontWeight: FontWeight.bold),
+            if(customerContact.text.length==10&&customerContact.text.isNotEmpty)
+            {
+              Flushbar<bool>(
+                mainButton: FlatButton(
+                  onPressed: () {
+                    flush.dismiss(true);
+                  },
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.yellow,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              borderRadius: 10,
-              message: "OTP generated successfully",
-              duration: Duration(seconds: 6),
-            )..show(context);
+                borderRadius: 10,
+                message: "OTP generated successfully",
+                duration: Duration(seconds: 6),
+              )..show(context);
+            }
           },
         ),
       ),
@@ -1482,24 +1506,7 @@ class _serviceFormState extends State<serviceForm> {
                         },
                       ),
                     )
-                    // :
-                    //  Container(
-                    //   height: 40,
-                    //   width: double.infinity,
-                    //   child: IgnorePointer(
-                    //     ignoring: true,
-                    //                           child: RaisedButton(
-                    //       color: Colors.grey,
-                    //       child: Text(
-                    //         "Verify OTP",
-                    //         style: TextStyle(fontSize: 16, color: Colors.white),
-                    //       ),
-                    //       onPressed: () {
 
-                    //       },
-                    //     ),
-                    //   ),
-                    // )
 
                   ],
                 ),
