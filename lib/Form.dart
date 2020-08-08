@@ -224,6 +224,69 @@ class _serviceFormState extends State<serviceForm> {
         otpText=false;
 
       }
+      if(data=='invalid'){
+        Flushbar<bool>(
+          mainButton: FlatButton(
+            onPressed: () {
+              flush.dismiss(true);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.yellow,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          borderRadius: 10,
+          message: "Invalid OTP",
+          duration: Duration(seconds: 3),
+        )..show(context);
+        otpText=false;
+
+      }
+      if(data=='negative'){
+        Flushbar<bool>(
+          mainButton: FlatButton(
+            onPressed: () {
+              flush.dismiss(true);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.yellow,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          borderRadius: 10,
+          message: " OTP was not generated. Generate OTP again.",
+          duration: Duration(seconds: 3),
+        )..show(context);
+        otpText=false;
+
+      }
+      if(data=='expired'){
+        Flushbar<bool>(
+          mainButton: FlatButton(
+            onPressed: () {
+              flush.dismiss(true);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.yellow,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          borderRadius: 10,
+          message: "Entered OTP is expired. Generate a new OTP",
+          duration: Duration(seconds: 3),
+        )..show(context);
+        otpText=false;
+
+      }
 
     });
   }
@@ -372,10 +435,23 @@ class _serviceFormState extends State<serviceForm> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Call ID No."),
-                          Text(widget.listData['callLogId']),
-                          Text("FSR No."),
-                          Text(widget.listData['fsrNo']),
+                          Row(
+                            children: <Widget>[
+                              Text("Call ID No :",style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(width: 10,),
+                              Text(widget.listData['callLogId']),
+                            ],
+                          ),
+
+                          Row(
+                            children: <Widget>[
+                              Text("FSR No :",style: TextStyle(fontWeight: FontWeight.bold),),
+                              SizedBox(width: 10,),
+                              Text(widget.listData['fsrNo']),
+                            ],
+                          )
+
+
                         ],
                       ),
                     ),
@@ -384,10 +460,46 @@ class _serviceFormState extends State<serviceForm> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Client Name"),
-                          Text(widget.listData['customerName']),
-                          Text("Date"),
+                          Text("Date :",style: TextStyle(fontWeight: FontWeight.bold),),
                           Text(widget.listData['logDate']),
+                          Text("UPS Qty :",style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text(widget.listData['upsUnitQty'].toString() ?? "Empty"),
+                          Text(" Model :",style: TextStyle(fontWeight: FontWeight.bold),),
+                          Text(widget.listData['model']),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Client Name :",style: TextStyle(fontWeight: FontWeight.bold),),
+                          SizedBox(width: 10),
+                          Text(widget.listData['customerName']),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Client Email :" ,style: TextStyle(fontWeight: FontWeight.bold),),
+                          SizedBox(width: 10,),
+                          Text(widget.listData['email']),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Phone Number : ",style: TextStyle(fontWeight: FontWeight.bold),),
+                          SizedBox(width: 5),
+                          Text(widget.listData['contactNo']),
                         ],
                       ),
                     ),
@@ -396,24 +508,13 @@ class _serviceFormState extends State<serviceForm> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Client Address"), SizedBox(width: 10,),
+                          Text("Client Address :",style: TextStyle(fontWeight: FontWeight.bold),), SizedBox(width: 10,),
 
                           Flexible(child: Text(widget.listData['address'])),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("UPS Qty"),
-                          Text(widget.listData['upsUnitQty'].toString() ?? "Empty"),
-                          Text("UPS Model"),
-                          Text(widget.listData['model']),
-                        ],
-                      ),
-                    ),
+
 
 
                   ],
@@ -931,7 +1032,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("R-N"),
+                                child: Text("R-Y"),
                               ),
                               Container(
                                 height: 30,
@@ -962,7 +1063,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("Y-N"),
+                                child: Text("Y-B"),
                               ),
                               Container(
                                 height: 30,
@@ -998,7 +1099,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("B-N"),
+                                child: Text("B-R"),
                               ),
                               Container(
                                 height: 30,
@@ -1053,7 +1154,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("N-R"),
+                                child: Text("R-N"),
                               ),
                               Container(
                                 height: 30,
@@ -1084,7 +1185,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("N-S"),
+                                child: Text("Y-N"),
                               ),
                               Container(
                                 height: 30,
@@ -1120,7 +1221,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("N-T"),
+                                child: Text("B-N"),
                               ),
                               Container(
                                 height: 30,
@@ -1187,7 +1288,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("R-T"),
+                                child: Text("R-Y"),
                               ),
                               Container(
                                 height: 30,
@@ -1218,7 +1319,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("S-T"),
+                                child: Text("Y-B"),
                               ),
                               Container(
                                 height: 30,
@@ -1254,7 +1355,7 @@ class _serviceFormState extends State<serviceForm> {
                               Padding(
                                 padding:
                                 const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("R-T"),
+                                child: Text("B-R"),
                               ),
                               Container(
                                 height: 30,
