@@ -403,8 +403,13 @@ class _serviceFormState extends State<serviceForm> {
 
   @override
   Widget build(BuildContext context) {
+
     print(" list data insde single tab");
+    print('.........................................................');
+
+    print (widget.listData['serialNumber']);
     print(widget.listData);
+
     return Scaffold(
       floatingActionButton:  Container(
         decoration: BoxDecoration(
@@ -508,7 +513,7 @@ class _serviceFormState extends State<serviceForm> {
                           Text("UPS Qty :",style: TextStyle(fontWeight: FontWeight.bold),),
                           Text(widget.listData['upsUnitQty'].toString() ?? "Empty"),
                           Text(" Model :",style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text(widget.listData['model']),
+                          Text(widget.listData['model'] == null? 'NA': widget.listData['model']),
                         ],
                       ),
                     ),
@@ -580,24 +585,26 @@ class _serviceFormState extends State<serviceForm> {
                         children: <Widget>[
                           Text("Serial No."),
                           widget.listData['serialNumber'] == 'NA'
-                              ? TextFormField(
+                              ? Flexible(
+                                child: TextFormField(
                             decoration: InputDecoration(
-                              hintText: 'Enter Serial Number',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(5.0)),
-                                  borderSide:
-                                  BorderSide(color: Colors.grey)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(5.0)),
-                                  borderSide:
-                                  BorderSide(color: Colors.black)),
+                                hintText: 'Enter Serial Number',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5.0)),
+                                    borderSide:
+                                    BorderSide(color: Colors.grey)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5.0)),
+                                    borderSide:
+                                    BorderSide(color: Colors.black)),
                             ),
                             controller: serialNoConroller,
                             style: TextStyle(fontSize: 15),
-                          )
+                          ),
+                              )
                               : Text(widget.listData['serialNumber'])
                         ],
                       ),
