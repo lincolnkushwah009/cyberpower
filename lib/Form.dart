@@ -331,7 +331,7 @@ class _serviceFormState extends State<serviceForm> {
             ),
           ),
           borderRadius: 10,
-          message: "invalid OTP",
+          message: "Invalid OTP",
           duration: Duration(seconds: 3),
         )..show(context);
         otpText=false;
@@ -339,6 +339,49 @@ class _serviceFormState extends State<serviceForm> {
       }
       else{
         otpText=true;
+      }
+
+      if(data=='negative'){
+        Flushbar<bool>(
+          mainButton: FlatButton(
+            onPressed: () {
+              flush.dismiss(true);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.yellow,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          borderRadius: 10,
+          message: " OTP was not generated. Generate OTP again.",
+          duration: Duration(seconds: 3),
+        )..show(context);
+        otpText=false;
+
+      }
+      if(data=='expired'){
+        Flushbar<bool>(
+          mainButton: FlatButton(
+            onPressed: () {
+              flush.dismiss(true);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.yellow,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          borderRadius: 10,
+          message: "Entered OTP is expired. Generate a new OTP",
+          duration: Duration(seconds: 3),
+        )..show(context);
+        otpText=false;
+
       }
 
 
@@ -539,8 +582,8 @@ class _serviceFormState extends State<serviceForm> {
                           widget.listData['serialNumber'] == 'NA'
                               ? TextFormField(
                             decoration: InputDecoration(
-                              hintText: 'Email',
-                              hintStyle: TextStyle(color: Colors.black),
+                              hintText: 'Enter Serial Number',
+                              hintStyle: TextStyle(color: Colors.grey),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
                                       Radius.circular(5.0)),

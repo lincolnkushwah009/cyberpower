@@ -473,6 +473,7 @@ class _ClosedCardsState extends State<ClosedCards> {
                               ],
                             ),
                           ),
+
                         ],
                       ),
                       shape: RoundedRectangleBorder(
@@ -482,6 +483,7 @@ class _ClosedCardsState extends State<ClosedCards> {
                     ),
                   ),
                 ),
+
               ],
             ),
           );
