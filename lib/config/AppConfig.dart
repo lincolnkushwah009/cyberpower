@@ -8,6 +8,7 @@ class AppConfig{
   static final String form="storeFSR";
   static final String generateOtp="generateOTP";
   static final String verifyOtp="verifyOTP";
+
   static var httpStatusCodeRec;
   static String loginData = "";
   static var image;

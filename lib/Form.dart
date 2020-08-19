@@ -8,6 +8,7 @@ import 'package:cyberpower/service/login_service.dart';
 import 'service/buy_fragment_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
 
 
 
@@ -76,7 +77,7 @@ class _serviceFormState extends State<serviceForm> {
 
 
   static var images;
-  TextEditingController serialNoConroller = new TextEditingController();
+  TextEditingController upsSerialNumber = new TextEditingController();
   TextEditingController engineername = new TextEditingController();
   TextEditingController engineerContact = new TextEditingController();
   TextEditingController customername = new TextEditingController();
@@ -124,7 +125,6 @@ class _serviceFormState extends State<serviceForm> {
     };
     Map<String, String> body = {
 
-
       "customername": customername.text,
       "customerContact": customerContact.text,
       "engineername": engineername.text,
@@ -133,7 +133,7 @@ class _serviceFormState extends State<serviceForm> {
       "fsrNumber": widget.listData['fsrNo'],
       "fsrDate": widget.listData['logDate'],
       "fsrTime": widget.listData['logTime'],
-      "upsSerialNo": widget.listData['serialNumber'] ,
+      "upsSerialNo": upsSerialNumber.text,
       "batterySerialNo": widget.listData['batterySerialNo'],
       "observationAndWorkDone": observationAndWorkDone.text,
       "spareUsed": spareUsed.text,
@@ -159,7 +159,7 @@ class _serviceFormState extends State<serviceForm> {
       "bvA5": voltAfterFive.text,
       "bvA10": voltAfterTen.text,
       "siteCondition": _selectedLocation,
-      "sitePhoto1": "Test",
+      "file": AppConfig.image,
       "sitePhoto2": "Test",
       "sitePhoto3": "Test",
       "status":_value
@@ -167,6 +167,7 @@ class _serviceFormState extends State<serviceForm> {
     print('print body.............................');
     print(body);
     var data;
+
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
@@ -601,7 +602,7 @@ class _serviceFormState extends State<serviceForm> {
                                     borderSide:
                                     BorderSide(color: Colors.black)),
                             ),
-                            controller: serialNoConroller,
+                            controller: upsSerialNumber,
                             style: TextStyle(fontSize: 15),
                           ),
                               )
