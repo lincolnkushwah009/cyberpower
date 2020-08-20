@@ -33,6 +33,7 @@ class serviceForm extends StatefulWidget {
 
   @override
   _serviceFormState createState() => _serviceFormState();
+
 }
 
 class _serviceFormState extends State<serviceForm> {
@@ -159,9 +160,9 @@ class _serviceFormState extends State<serviceForm> {
       "bvA5": voltAfterFive.text,
       "bvA10": voltAfterTen.text,
       "siteCondition": _selectedLocation,
-      "file": AppConfig.image,
+      "file": base64Encode(AppConfig.image.readAsBytesSync()),
+      "sitePhoto1": base64Encode(AppConfig.image.readAsBytesSync()),
       "sitePhoto2": "Test",
-      "sitePhoto3": "Test",
       "status":_value
     };
     print('print body.............................');
@@ -402,6 +403,7 @@ class _serviceFormState extends State<serviceForm> {
 
 
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -588,6 +590,11 @@ class _serviceFormState extends State<serviceForm> {
                           widget.listData['serialNumber'] == 'NA'
                               ? Flexible(
                                 child: TextFormField(
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'Provide SerislNumber';
+                                    }
+                                  },
                             decoration: InputDecoration(
                                 hintText: 'Enter Serial Number',
                                 hintStyle: TextStyle(color: Colors.grey),
@@ -662,6 +669,11 @@ class _serviceFormState extends State<serviceForm> {
                             height: 40,
                             width: 150,
                             child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Provide a Engineer Name';
+                                }
+                              },
                               controller: engineername,
                               decoration: InputDecoration(
                                 hintText: 'Engineer Name',
@@ -683,6 +695,11 @@ class _serviceFormState extends State<serviceForm> {
                             height: 40,
                             width: 150,
                             child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Provide a Engineer Contact';
+                                }
+                              },
                               keyboardType: TextInputType.number,
                               controller: engineerContact,
                               decoration: InputDecoration(
@@ -711,6 +728,11 @@ class _serviceFormState extends State<serviceForm> {
                             height: 40,
                             width: 150,
                             child: TextFormField(
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Provide a Customer Name';
+                                }
+                              },
                               controller: customername,
                               decoration: InputDecoration(
                                 hintText: 'Customer Name',
@@ -734,6 +756,11 @@ class _serviceFormState extends State<serviceForm> {
                             child: TextFormField(
                               keyboardType: TextInputType.number,
                               controller: customerContact,
+                              validator: (input) {
+                                if (input.isEmpty) {
+                                  return 'Provide a Customer Contact';
+                                }
+                              },
                               decoration: InputDecoration(
                                 hintText: 'Customer Contact',
                                 hintStyle: TextStyle(color: Colors.grey),
