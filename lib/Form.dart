@@ -37,6 +37,10 @@ class serviceForm extends StatefulWidget {
 }
 
 class _serviceFormState extends State<serviceForm> {
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
   Flushbar flush;
 
   void _showDialog() {
@@ -75,6 +79,80 @@ class _serviceFormState extends State<serviceForm> {
       },
     );
   }
+
+
+// wrong Serial number input pop up
+
+  void _wrongSerialNumber() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Center(
+              child: new Text(
+                "Wrong Serial Number",
+                style: TextStyle(color: Colors.red),
+              )),
+          content: new Text(
+              "Entered Serial Number is invalid."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new Container(
+              width: 300,
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: Text("Continue"),
+                textColor: Colors.white,
+                padding: EdgeInsets.all(16),
+                onPressed: () => Navigator.pop(context),
+                color: Colors.red[800],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  // failed
+
+  void _faild() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: Center(
+              child: new Text(
+                "Failed",
+                style: TextStyle(color: Colors.red),
+              )),
+          content: new Text(
+              "FSR Generation Failed. Try Again"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new Container(
+              width: 300,
+              child: FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                child: Text("Continue"),
+                textColor: Colors.white,
+                padding: EdgeInsets.all(16),
+                onPressed: () => Navigator.pop(context),
+                color: Colors.red[800],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 
 
   static var images;
@@ -160,7 +238,6 @@ class _serviceFormState extends State<serviceForm> {
       "bvA5": voltAfterFive.text,
       "bvA10": voltAfterTen.text,
       "siteCondition": _selectedLocation,
-      "file": base64Encode(AppConfig.image.readAsBytesSync()),
       "sitePhoto1": base64Encode(AppConfig.image.readAsBytesSync()),
       "sitePhoto2": "Test",
       "status":_value
@@ -172,9 +249,16 @@ class _serviceFormState extends State<serviceForm> {
     try {
       data = await loginservice.getUserLogin(url, headers, body, context);
       data = await data.transform(utf8.decoder).join();
-      _showDialog();
+      if (data == "success"){
+        _showDialog();
+      }else if (data == "wrong-serial"){
+        _wrongSerialNumber();
+      }
+
     } catch (e) {}
     print("dataaaaaaa");
+
+
     print(data);
     setState(() {
       _loading = true;
@@ -385,9 +469,6 @@ class _serviceFormState extends State<serviceForm> {
         otpText=false;
 
       }
-
-
-
     });
   }
 
@@ -414,6 +495,8 @@ class _serviceFormState extends State<serviceForm> {
     print(widget.listData);
 
     return Scaffold(
+
+
       floatingActionButton:  Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50.0),
@@ -428,8 +511,10 @@ class _serviceFormState extends State<serviceForm> {
             "Generate \n OTP ",textAlign: TextAlign.center,style: TextStyle(color: Colors.white,fontSize: 12,fontWeight: FontWeight.bold),
           ),
           onPressed: (){
+
+
             generateOtp();
-            if(customerContact.text.length==10&&customerContact.text.isNotEmpty)
+            if(_formKey.currentState.validate())
             {
               Flushbar<bool>(
                 mainButton: FlatButton(
@@ -474,1246 +559,1231 @@ class _serviceFormState extends State<serviceForm> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text("Call ID No :",style: TextStyle(fontWeight: FontWeight.bold),),
-                              SizedBox(width: 10,),
-                              Text(widget.listData['callLogId']),
-                            ],
-                          ),
+        child: Form(
+          autovalidate: true,
+          key: _formKey,
 
-                          Row(
-                            children: <Widget>[
-                              Text("FSR No :",style: TextStyle(fontWeight: FontWeight.bold),),
-                              SizedBox(width: 10,),
-                              Text(widget.listData['fsrNo']),
-                            ],
-                          )
-
-
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Date :",style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text(widget.listData['logDate']),
-                          Text("UPS Qty :",style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text(widget.listData['upsUnitQty'].toString() ?? "Empty"),
-                          Text(" Model :",style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text(widget.listData['model'] == null? 'NA': widget.listData['model']),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Client Name :",style: TextStyle(fontWeight: FontWeight.bold),),
-                          SizedBox(width: 10),
-                          Text(widget.listData['customerName']),
-
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Client Email :" ,style: TextStyle(fontWeight: FontWeight.bold),),
-                          SizedBox(width: 10,),
-                          Text(widget.listData['email']),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Phone Number : ",style: TextStyle(fontWeight: FontWeight.bold),),
-                          SizedBox(width: 5),
-                          Text(widget.listData['contactNo']),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Client Address :",style: TextStyle(fontWeight: FontWeight.bold),), SizedBox(width: 10,),
-
-                          Flexible(child: Text(widget.listData['address'])),
-                        ],
-                      ),
-                    ),
-
-
-
-                  ],
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Serial No."),
-                          widget.listData['serialNumber'] == 'NA'
-                              ? Flexible(
-                                child: TextFormField(
-                                  validator: (input) {
-                                    if (input.isEmpty) {
-                                      return 'Provide SerislNumber';
-                                    }
-                                  },
-                            decoration: InputDecoration(
-                                hintText: 'Enter Serial Number',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0)),
-                                    borderSide:
-                                    BorderSide(color: Colors.black)),
-                            ),
-                            controller: upsSerialNumber,
-                            style: TextStyle(fontSize: 15),
-                          ),
-                              )
-                              : Text(widget.listData['serialNumber'])
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-              ),
-            ),
-
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Fault symptoms"),
-                          Text(widget.listData['faultSymptom'])
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
                   child: Column(
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 40,
-                            width: 150,
-                            child: TextFormField(
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Provide a Engineer Name';
-                                }
-                              },
-                              controller: engineername,
-                              decoration: InputDecoration(
-                                hintText: 'Engineer Name',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            width: 150,
-                            child: TextFormField(
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Provide a Engineer Contact';
-                                }
-                              },
-                              keyboardType: TextInputType.number,
-                              controller: engineerContact,
-                              decoration: InputDecoration(
-                                hintText: 'Engineer Contact',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 40,
-                            width: 150,
-                            child: TextFormField(
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Provide a Customer Name';
-                                }
-                              },
-                              controller: customername,
-                              decoration: InputDecoration(
-                                hintText: 'Customer Name',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            width: 150,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: customerContact,
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'Provide a Customer Contact';
-                                }
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'Customer Contact',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("LOAD %"),
-                          Container(
-                            height: 40,
-                            width: 70,
-                            child: TextFormField(
-                              controller: loadR,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'R',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            width: 70,
-                            child: TextFormField(
-                              controller: loadY,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'Y',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            width: 70,
-                            child: TextFormField(
-                              controller: loadB,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'B',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Battery Charging Volt",
-                        style: TextStyle(
-                            color: Colors.redAccent[700],
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 40,
-                            width: 150,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: totalBatteryVolt,
-                              decoration: InputDecoration(
-                                hintText: 'Total Battery Volt',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            width: 150,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: chargingVolt,
-                              decoration: InputDecoration(
-                                hintText: ' Charging Volt',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            height: 40,
-                            width: 150,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: voltAfterFive,
-                              decoration: InputDecoration(
-                                hintText: 'Volt After 5 mins',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(color: Colors.grey)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                          Container(
-                            height: 40,
-                            width: 150,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              controller: voltAfterTen,
-                              decoration: InputDecoration(
-                                hintText: ' Volt After 10 mins',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                    borderSide: BorderSide(
-                                        color: Colors.redAccent[700])),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Input Voltage",
-                        style: TextStyle(
-                            color: Colors.redAccent[700],
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("R-N"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: inputRn,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("Y-N"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: inputYn,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("B-N"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: inputBn,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("N-E"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: inputNe,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("R-Y"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: inputRn2,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("Y-B"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: inputYn2,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("B-R"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: inputBn2,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text(""),
-                              ),
-                              Container(
-                                  height: 40, width: 150, child: Text('')),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Output Voltage",
-                        style: TextStyle(
-                            color: Colors.redAccent[700],
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("R-N"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: outputNr,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("Y-N"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: outputNs,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("B-N"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: outputNt,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("N-E"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  controller: outputNe,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("R-Y"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: outputRt,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("Y-B"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: outputSt,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text("B-R"),
-                              ),
-                              Container(
-                                height: 30,
-                                width: 150,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: outputRt2,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(5.0)),
-                                        borderSide: BorderSide(
-                                            color: Colors.redAccent[700])),
-                                  ),
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                const EdgeInsets.fromLTRB(0, 0, 100, 0),
-                                child: Text(""),
-                              ),
-                              Container(
-                                  height: 30, width: 150, child: Text('')),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      _selectedLocation == 'Dusty'
-                          ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          DropdownButton(
-                            hint: Text(
-                                'Site Condition'), // Not necessary for Option 1
-                            value: _selectedLocation,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedLocation = newValue;
-                              });
-                            },
-                            items: _locations.map((location) {
-                              print(_selectedLocation);
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          ),
-                          RaisedButton(
-                            onPressed: () {
-                              getImage();
-                            },
-                            child: Text(
-                              "Select",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Container(
-                              width: 100.0,
-                              height: 100.0,
-                              child: AppConfig.image != null
-                                  ? Image.file(AppConfig.image,
-                                  fit: BoxFit.fitWidth,
-                                  height: 114,
-                                  width: 114)
-                                  : new Container(
-                                  width: 100.0,
-                                  height: 100.0,
-                                  decoration: new BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: new AssetImage(
-                                          "images/cyberpower-logo.jpg"),
-                                    ),
-                                  )))
-                        ],
-                      )
-                          : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          DropdownButton(
-                            hint: Text(
-                                'Site Condition'), // Not necessary for Option 1
-                            value: _selectedLocation,
-                            onChanged: (newValue) {
-                              setState(() {
-                                _selectedLocation = newValue;
-                              });
-                            },
-                            items: _locations.map((location) {
-                              print(_selectedLocation);
-                              return DropdownMenuItem(
-                                child: new Text(location),
-                                value: location,
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                        children: <Widget>[
-                          StatusDropDown(),
-                          Text("")
-                        ],
-                      ),
-
-                      SizedBox(
-                        height: 10,
-                      ),
-
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        child: Center(child: Text("Spare Used if any ")),
-                      ),
-                      TextFormField(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Text("Call ID No :",style: TextStyle(fontWeight: FontWeight.bold),),
+                                SizedBox(width: 10,),
+                                Text(widget.listData['callLogId']),
+                              ],
+                            ),
 
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        controller: spareUsed,
-                        decoration: InputDecoration(
-                          hintText: "Write something here....",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0)),
-                              borderSide: BorderSide(
-                                  color: Colors.redAccent[700])),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0)),
-                              borderSide: BorderSide(
-                                  color: Colors.redAccent[700])),
+                            Row(
+                              children: <Widget>[
+                                Text("FSR No :",style: TextStyle(fontWeight: FontWeight.bold),),
+                                SizedBox(width: 10,),
+                                Text(widget.listData['fsrNo']),
+                              ],
+                            )
+
+
+                          ],
                         ),
-                        style: TextStyle(fontSize: 15),
-                      ),
-
-
-                      SizedBox(
-                        height: 10,
                       ),
                       Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        child: Center(child: Text("Observation And Work Done")),
-                      ),
-                      TextFormField(
-                        validator: (val){
-                          if(val == '12345')
-                            otpText=true;
-                        },
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        controller: observationAndWorkDone,
-                        decoration: InputDecoration(
-                          hintText: "Write something here....",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0)),
-                              borderSide: BorderSide(
-                                  color: Colors.redAccent[700])),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0)),
-                              borderSide: BorderSide(
-                                  color: Colors.redAccent[700])),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Date :",style: TextStyle(fontWeight: FontWeight.bold),),
+                            Text(widget.listData['logDate']),
+                            Text("UPS Qty :",style: TextStyle(fontWeight: FontWeight.bold),),
+                            Text(widget.listData['upsUnitQty'].toString() ?? "Empty"),
+                            Text(" Model :",style: TextStyle(fontWeight: FontWeight.bold),),
+                            Text(widget.listData['model'] == null? 'NA': widget.listData['model']),
+                          ],
                         ),
-                        style: TextStyle(fontSize: 15),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Client Name :",style: TextStyle(fontWeight: FontWeight.bold),),
+                            SizedBox(width: 10),
+                            Text(widget.listData['customerName']),
+
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Client Email :" ,style: TextStyle(fontWeight: FontWeight.bold),),
+                            SizedBox(width: 10,),
+                            Text(widget.listData['email']),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text("Phone Number : ",style: TextStyle(fontWeight: FontWeight.bold),),
+                            SizedBox(width: 5),
+                            Text(widget.listData['contactNo'].toString().trim()),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Client Address :",style: TextStyle(fontWeight: FontWeight.bold),), SizedBox(width: 10,),
+
+                            Flexible(child: Text(widget.listData['address'])),
+                          ],
+                        ),
+                      ),
+
+
 
                     ],
                   ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Serial No."),
+                            widget.listData['serialNumber'] == 'NA'
+                                ? Flexible(
+                              child: TextFormField(
+                                validator: (value) =>
+                                value.isEmpty ? 'Serial Number cannot be blank' : null,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter Serial Number',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
+                                      borderSide:
+                                      BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
+                                      borderSide:
+                                      BorderSide(color: Colors.black)),
+                                ),
+                                controller: upsSerialNumber,
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            )
+                                : Text(widget.listData['serialNumber'])
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
+                ),
+              ),
 
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        height: 50,
-                        width: 300,
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          controller: otp,
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 20, 8, 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Fault symptoms"),
+                            Text(widget.listData['faultSymptom'])
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              child: TextFormField(
+                                validator: (value) =>
+                                value.isEmpty ? 'Provide Engineer name ' : null,
+
+                                controller: engineername,
+                                decoration: InputDecoration(
+                                  hintText: 'Engineer Name',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: TextFormField(
+                                validator: (input) {
+                                  if (input.toString().trim().isEmpty) {
+                                    return 'Provide a Customer Contact';
+                                  }
+
+                                  else if (input.length<10 || input.length>10 ) {
+                                    return 'Provide a valid Number';
+                                  }
+
+                                },
+
+                                keyboardType: TextInputType.number,
+                                controller: engineerContact,
+                                decoration: InputDecoration(
+                                  hintText: 'Engineer Contact',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              child: TextFormField(
+                                validator: (value) =>
+                                value.isEmpty ? 'Provide customer name' : null,
+                                controller: customername,
+                                decoration: InputDecoration(
+                                  hintText: 'Customer Name',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                controller: customerContact,
+                                validator: (input) {
+                                  if (input.toString().trim().isEmpty) {
+                                    return 'Provide a Customer Contact';
+                                  }
+
+                                  else if (input.length<10 || input.length>10 ) {
+                                    return 'Provide a valid Number';
+                                  }
+
+                                },
+                                decoration: InputDecoration(
+                                  hintText: 'Customer Contact',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("LOAD %"),
+                            Container(
+                              height: 40,
+                              width: 70,
+                              child: TextFormField(
+                                controller: loadR,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: 'R',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            Container(
+                              height: 40,
+                              width: 70,
+                              child: TextFormField(
+                                controller: loadY,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: 'Y',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            Container(
+                              height: 40,
+                              width: 70,
+                              child: TextFormField(
+                                controller: loadB,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: 'B',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Battery Charging Volt",
+                          style: TextStyle(
+                              color: Colors.redAccent[700],
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              height: 40,
+                              width: 150,
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                controller: totalBatteryVolt,
+                                decoration: InputDecoration(
+                                  hintText: 'Total Battery Volt',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            Container(
+                              height: 40,
+                              width: 150,
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                controller: chargingVolt,
+                                decoration: InputDecoration(
+                                  hintText: ' Charging Volt',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              height: 40,
+                              width: 150,
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                controller: voltAfterFive,
+                                decoration: InputDecoration(
+                                  hintText: 'Volt After 5 mins',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(color: Colors.grey)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                            Container(
+                              height: 40,
+                              width: 150,
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                controller: voltAfterTen,
+                                decoration: InputDecoration(
+                                  hintText: ' Volt After 10 mins',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
+                                      borderSide: BorderSide(
+                                          color: Colors.redAccent[700])),
+                                ),
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Input Voltage",
+                          style: TextStyle(
+                              color: Colors.redAccent[700],
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("R-N"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: inputRn,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("Y-N"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: inputYn,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("B-N"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: inputBn,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("N-E"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: inputNe,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("R-Y"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: inputRn2,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("Y-B"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: inputYn2,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("B-R"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: inputBn2,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text(""),
+                                ),
+                                Container(
+                                    height: 40, width: 150, child: Text('')),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Output Voltage",
+                          style: TextStyle(
+                              color: Colors.redAccent[700],
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("R-N"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: outputNr,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("Y-N"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: outputNs,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("B-N"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: outputNt,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("N-E"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    controller: outputNe,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("R-Y"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: outputRt,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("Y-B"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: outputSt,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text("B-R"),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 150,
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: outputRt2,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          borderSide: BorderSide(
+                                              color: Colors.redAccent[700])),
+                                    ),
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(0, 0, 100, 0),
+                                  child: Text(""),
+                                ),
+                                Container(
+                                    height: 30, width: 150, child: Text('')),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+
+                        _selectedLocation == 'Dusty'
+                            ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            DropdownButton(
+                              hint: Text(
+                                  'Site Condition'), // Not necessary for Option 1
+                              value: _selectedLocation,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _selectedLocation = newValue;
+                                });
+                              },
+                              items: _locations.map((location) {
+                                print(_selectedLocation);
+                                return DropdownMenuItem(
+                                  child: new Text(location),
+                                  value: location,
+                                );
+                              }).toList(),
+                            ),
+                            RaisedButton(
+                              onPressed: () {
+                                getImage();
+                              },
+                              child: Text(
+                                "Select",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                                width: 100.0,
+                                height: 100.0,
+                                child: AppConfig.image != null
+                                    ? Image.file(AppConfig.image,
+                                    fit: BoxFit.fitWidth,
+                                    height: 114,
+                                    width: 114)
+                                    : new Container(
+                                    width: 100.0,
+                                    height: 100.0,
+                                    decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: new AssetImage(
+                                            "images/cyberpower-logo.jpg"),
+                                      ),
+                                    )))
+                          ],
+                        )
+                            : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            DropdownButton(
+                              hint: Text(
+                                  'Site Condition'), // Not necessary for Option 1
+                              value: _selectedLocation,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _selectedLocation = newValue;
+                                });
+                              },
+                              items: _locations.map((location) {
+                                print(_selectedLocation);
+                                return DropdownMenuItem(
+                                  child: new Text(location),
+                                  value: location,
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                          children: <Widget>[
+                            StatusDropDown(),
+                            Text("")
+                          ],
+                        ),
+
+                        SizedBox(
+                          height: 10,
+                        ),
+
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          child: Center(child: Text("Spare Used if any ")),
+                        ),
+                        TextFormField(
+
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          controller: spareUsed,
                           decoration: InputDecoration(
-                            hintText: 'Enter OTP',
-                            hintStyle: TextStyle(color: Colors.grey),
+                            hintText: "Write something here....",
                             border: OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
-                                borderSide: BorderSide(color: Colors.grey)),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0)),
+                                borderSide: BorderSide(
+                                    color: Colors.redAccent[700])),
                             focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(5.0)),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0)),
                                 borderSide: BorderSide(
                                     color: Colors.redAccent[700])),
                           ),
                           style: TextStyle(fontSize: 15),
                         ),
-                      ),
-                    ),
-                    // otpText==true?
-                    Container(
-                      height: 40,
-                      width: double.infinity,
-                      child: RaisedButton(
-                        color: Colors.red[800],
-                        child: Text(
-                          "Verify OTP",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+
+
+                        SizedBox(
+                          height: 10,
                         ),
-                        onPressed: () {
-                          verifyOtpp();
-                        },
+                        Padding(
+                          padding:
+                          const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          child: Center(child: Text("Observation And Work Done")),
+                        ),
+                        TextFormField(
+                          validator: (val){
+                            if(val == '12345'||val.toString().trim().isEmpty)
+                              otpText=true;
+                          },
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          controller: observationAndWorkDone,
+                          decoration: InputDecoration(
+                            hintText: "Write something here....",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0)),
+                                borderSide: BorderSide(
+                                    color: Colors.redAccent[700])),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0)),
+                                borderSide: BorderSide(
+                                    color: Colors.redAccent[700])),
+                          ),
+                          style: TextStyle(fontSize: 15),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          height: 50,
+                          width: 300,
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            controller: otp,
+                            decoration: InputDecoration(
+                              hintText: 'Enter OTP',
+                              hintStyle: TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(color: Colors.grey)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0)),
+                                  borderSide: BorderSide(
+                                      color: Colors.redAccent[700])),
+                            ),
+                            style: TextStyle(fontSize: 15),
+                          ),
+                        ),
                       ),
-                    )
+                      // otpText==true?
+                      Container(
+                        height: 40,
+                        width: double.infinity,
+                        child: RaisedButton(
+                          color: Colors.red[800],
+                          child: Text(
+                            "Verify OTP",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                          onPressed: () {
+                            verifyOtpp();
+                          },
+                        ),
+                      )
 
 
-                  ],
+                    ],
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  elevation: 10,
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 10,
               ),
-            ),
-            SizedBox(height: 20),
-            otpText==true?
-            Container(
-              height: 60,
-              width: double.infinity,
-              child: RaisedButton(
-                color: Colors.red[800],
-                child: Text(
-                  "Save",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-                onPressed: () {
-                  saveButton();
-                },
-              ),
-            ):
-            Container(
-              height: 60,
-              width: double.infinity,
-              child: IgnorePointer(
-                ignoring: true,
+              SizedBox(height: 20),
+              otpText==true?
+              Container(
+                height: 60,
+                width: double.infinity,
                 child: RaisedButton(
-                  color: Colors.grey,
+                  color: Colors.red[800],
                   child: Text(
                     "Save",
                     style: TextStyle(fontSize: 20, color: Colors.white),
@@ -1722,9 +1792,27 @@ class _serviceFormState extends State<serviceForm> {
                     saveButton();
                   },
                 ),
+              )
+                  :
+              Container(
+                height: 60,
+                width: double.infinity,
+                child: IgnorePointer(
+                  ignoring: true,
+                  child: RaisedButton(
+                    color: Colors.grey,
+                    child: Text(
+                      "Save",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      saveButton();
+                    },
+                  ),
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
