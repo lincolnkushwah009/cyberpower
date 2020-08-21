@@ -238,7 +238,7 @@ class _serviceFormState extends State<serviceForm> {
       "bvA5": voltAfterFive.text,
       "bvA10": voltAfterTen.text,
       "siteCondition": _selectedLocation,
-      "sitePhoto1": base64Encode(AppConfig.image.readAsBytesSync()),
+      "sitePhoto1":AppConfig.image==null?'empty': base64Encode(AppConfig.image.readAsBytesSync()),
       "sitePhoto2": "Test",
       "status":_value
     };
@@ -256,16 +256,26 @@ class _serviceFormState extends State<serviceForm> {
       }else if (data == "fail"){
         _failed();
       }
+      setState(() {
+        _loading = true;
 
-    } catch (e) {}
+      });
+    } catch (e) {
+      setState(() {
+        _loading = false;
+
+      });
+    }
+    finally {
+      setState(() {
+        _loading = false;
+      });
+    }
     print("dataaaaaaa");
 
 
     print(data);
-    setState(() {
-      _loading = true;
 
-    });
   }
 
 
@@ -403,7 +413,7 @@ class _serviceFormState extends State<serviceForm> {
     print("dataaaaaaa");
     print(data);
     setState(() {
-      _loading = true;
+
       if(data=='invalid'){
         Flushbar<bool>(
           mainButton: FlatButton(
@@ -1781,6 +1791,7 @@ class _serviceFormState extends State<serviceForm> {
               ),
               SizedBox(height: 20),
               otpText==true?
+              _loading?CircularProgressIndicator():
               Container(
                 height: 60,
                 width: double.infinity,
