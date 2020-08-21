@@ -103,7 +103,7 @@ class _serviceFormState extends State<serviceForm> {
               child: FlatButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Text("Continue"),
+                child: Text("Try Again"),
                 textColor: Colors.white,
                 padding: EdgeInsets.all(16),
                 onPressed: () => Navigator.pop(context),
@@ -119,7 +119,7 @@ class _serviceFormState extends State<serviceForm> {
 
   // failed
 
-  void _faild() {
+  void _failed() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -139,7 +139,7 @@ class _serviceFormState extends State<serviceForm> {
               child: FlatButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                child: Text("Continue"),
+                child: Text("Try Again"),
                 textColor: Colors.white,
                 padding: EdgeInsets.all(16),
                 onPressed: () => Navigator.pop(context),
@@ -253,6 +253,8 @@ class _serviceFormState extends State<serviceForm> {
         _showDialog();
       }else if (data == "wrong-serial"){
         _wrongSerialNumber();
+      }else if (data == "fail"){
+        _failed();
       }
 
     } catch (e) {}
