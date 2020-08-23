@@ -11,7 +11,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 
-
+import 'dart:async';
 String _value;
 
 class Constants{
@@ -37,6 +37,44 @@ class serviceForm extends StatefulWidget {
 }
 
 class _serviceFormState extends State<serviceForm> {
+  List<Asset> imagess = List<Asset>();
+  String _error = 'No Error Dectected';
+  Future<void> loadAssets() async {
+    List<Asset> resultList = List<Asset>();
+    String error = 'No Error Dectected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 300,
+        enableCamera: false,
+        selectedAssets: imagess,
+        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      imagess = resultList;
+      _error = error;
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+  }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -238,8 +276,9 @@ class _serviceFormState extends State<serviceForm> {
       "bvA5": voltAfterFive.text,
       "bvA10": voltAfterTen.text,
       "siteCondition": _selectedLocation,
-      "sitePhoto1":AppConfig.image==null?'empty': base64Encode(AppConfig.image.readAsBytesSync()),
-      "sitePhoto2": "Test",
+      "sitePhoto1":imagess==null?'empty': imagess[0],
+      "sitePhoto2": imagess==null?'empty': imagess[1],
+      "sitePhoto2": imagess==null?'empty': imagess[2],
       "status":_value
     };
     print('print body.............................');
@@ -1597,9 +1636,8 @@ class _serviceFormState extends State<serviceForm> {
                               }).toList(),
                             ),
                             RaisedButton(
-                              onPressed: () {
-                                getImage();
-                              },
+
+
                               child: Text(
                                 "Select",
                                 style: TextStyle(
@@ -1607,26 +1645,27 @@ class _serviceFormState extends State<serviceForm> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              onPressed: loadAssets,
                             ),
+                            imagess==null?
+                            Text(''):
                             Container(
-                                width: 100.0,
-                                height: 100.0,
-                                child: AppConfig.image != null
-                                    ? Image.file(AppConfig.image,
-                                    fit: BoxFit.fitWidth,
-                                    height: 114,
-                                    width: 114)
-                                    : new Container(
-                                    width: 100.0,
-                                    height: 100.0,
-                                    decoration: new BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: new AssetImage(
-                                            "images/cyberpower-logo.jpg"),
-                                      ),
-                                    )))
+                              child: GridView.count(
+                                crossAxisCount: 3,
+                                children: List.generate(imagess.length, (index) {
+                                  Asset asset = imagess[index];
+                                  return AssetThumb(
+                                    asset: asset,
+                                    width: 300,
+                                    height: 300,
+                                  );
+                                }),
+                              ),
+                              width: 100.0,
+                              height: 100.0,
+
+
+                            )
                           ],
                         )
                             : Row(

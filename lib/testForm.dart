@@ -70,9 +70,7 @@ class _MyAppState extends State<Test> {
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: new Scaffold(
-        appBar: new AppBar(
-          title: const Text('Plugin example app'),
-        ),
+
         body: Column(
           children: <Widget>[
             Center(child: Text('Error: $_error')),
