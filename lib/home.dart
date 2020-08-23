@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:cyberpower/Form.dart';
 import 'package:cyberpower/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cyberpower/testForm.dart';
 
 import 'config/AppConfig.dart';
 
@@ -57,17 +56,9 @@ class _HomeState extends State<Home> {
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.redAccent[700],
-              title: GestureDetector(
-                onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Test()));
-                },
-                child: Image.asset(
-                  "images/cyberpower-logo.jpg",
-                  width: 150,
-                ),
+              title: Image.asset(
+                "images/cyberpower-logo.jpg",
+                width: 150,
               ),
               actions: <Widget>[
                 PopupMenuButton<String>(
