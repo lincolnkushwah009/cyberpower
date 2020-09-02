@@ -9,6 +9,7 @@ import 'service/buy_fragment_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'dart:io';
 
 
 import 'dart:async';
@@ -38,9 +39,13 @@ class serviceForm extends StatefulWidget {
 
 class _serviceFormState extends State<serviceForm> {
   List<Asset> imagess = List<Asset>();
+  List<String> base64images = List<String>();
   String _error = 'No Error Dectected';
+//  String base64Image = base64Encode(imagess);
+
   Future<void> loadAssets() async {
     List<Asset> resultList = List<Asset>();
+
     String error = 'No Error Dectected';
 
     try {
@@ -57,6 +62,15 @@ class _serviceFormState extends State<serviceForm> {
           selectCircleStrokeColor: "#000000",
         ),
       );
+      var index=0;
+      for(var i=0;i<resultList.length;i++) {
+        final bytes = File(resultList[i].identifier).readAsBytesSync();
+        String img64 = base64Encode(bytes);
+        base64images.setAll(i, [img64]);
+      }
+      print(base64images);
+      print("base64images.........................");
+
     } on Exception catch (e) {
       error = e.toString();
     }
@@ -65,7 +79,8 @@ class _serviceFormState extends State<serviceForm> {
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
     if (!mounted) return;
-
+print("result is .................");
+print(resultList);
     setState(() {
       imagess = resultList;
       _error = error;
@@ -829,7 +844,7 @@ class _serviceFormState extends State<serviceForm> {
                               child: TextFormField(
                                 validator: (input) {
                                   if (input.toString().trim().isEmpty) {
-                                    return 'Provide a Customer Contact';
+                                    return 'Provide a Engineer Contact';
                                   }
 
                                   else if (input.length<10 || input.length>10 ) {

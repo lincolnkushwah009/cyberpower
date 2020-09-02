@@ -8,7 +8,6 @@ import 'package:cyberpower/home.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'config/AppConfig.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
