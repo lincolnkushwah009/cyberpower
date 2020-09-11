@@ -1755,10 +1755,10 @@ class _serviceFormState extends State<serviceForm> {
                               Center(child: Text("Observation And Work Done")),
                         ),
                         TextFormField(
-                          validator: (val) {
-                            if (val == '12345' || val.toString().trim().isEmpty)
-                              otpText = true;
-                          },
+//                          validator: (val) {
+//                            if (val == '12345' || val.toString().trim().isEmpty)
+//                              otpText = true;
+//                          },
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           controller: observationAndWorkDone,
@@ -1836,42 +1836,39 @@ class _serviceFormState extends State<serviceForm> {
                   elevation: 10,
                 ),
               ),
+
               SizedBox(height: 20),
-              otpText == true
-                  ? _loading
-                      ? CircularProgressIndicator()
-                      : Container(
-                          height: 60,
-                          width: double.infinity,
-                          child: RaisedButton(
-                            color: Colors.red[800],
-                            child: Text(
-                              "Save",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
-                            ),
-                            onPressed: () {
-                              saveButton();
-                            },
-                          ),
-                        )
-                  : Container(
-                      height: 60,
-                      width: double.infinity,
-                      child: IgnorePointer(
-                        ignoring: true,
-                        child: RaisedButton(
-                          color: Colors.grey,
-                          child: Text(
-                            "Save",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                          onPressed: () {
-                            saveButton();
-                          },
-                        ),
-                      ),
-                    ),
+        otpText==true?
+        Container(
+          height: 60,
+          width: double.infinity,
+          child: RaisedButton(
+            color: Colors.red[800],
+            child: Text(
+              "Save",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            onPressed: () {
+              saveButton();
+            },
+          ),
+        )
+            :
+        Container(
+          height: 60,
+          width: double.infinity,
+          child: IgnorePointer(
+            ignoring: true,
+            child: RaisedButton(
+              color: Colors.grey,
+              child: Text(
+                "Save",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+              onPressed: () {
+
+              },
+            ),),)
             ],
           ),
         ),
