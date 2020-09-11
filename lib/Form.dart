@@ -295,9 +295,9 @@ class _serviceFormState extends State<serviceForm> {
       "bvA5": voltAfterFive.text,
       "bvA10": voltAfterTen.text,
       "siteCondition": _selectedLocation,
-      "sitePhoto1": base64images == null ? 'empty' : base64images[0],
-      "sitePhoto2": base64images == null ? 'empty' : base64images[1],
-      "sitePhoto3": base64images == null ? 'empty' : base64images[2],
+      "sitePhoto1": base64images == null ? 'empty' :base64images[0]??' ',
+      "sitePhoto2": base64images == null ? 'empty' :base64images[1]??' ',
+      "sitePhoto3": base64images == null ? 'empty' : base64images[2]??' ',
       "status": _value
     };
 

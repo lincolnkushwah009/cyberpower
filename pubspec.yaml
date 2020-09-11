@@ -30,7 +30,7 @@ dependencies:
   video_player: ^0.10.11+1
   flushbar: 1.9.1
   flutter_launcher_icons: ^0.7.5
-  multi_image_picker: ^4.7.10
+  multi_image_picker: ^4.7.13
 
 
 
