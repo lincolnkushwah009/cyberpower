@@ -1839,6 +1839,7 @@ class _serviceFormState extends State<serviceForm> {
 
               SizedBox(height: 20),
         otpText==true?
+            _loading? CircularProgressIndicator():
         Container(
           height: 60,
           width: double.infinity,
