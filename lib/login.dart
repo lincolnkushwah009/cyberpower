@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           borderRadius: 10,
-          message: "email or password is incorect",
+          message: "email or password is incorrect",
           duration: Duration(seconds: 6),
         )..show(context);
       });

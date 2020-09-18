@@ -59,8 +59,15 @@ class _serviceFormState extends State<serviceForm> {
           selectCircleStrokeColor: "#000000",
         ),
       );
+//      print(resultList[0].identifier);
+
+      print("photo[0]///////////");
       print(resultList[0].identifier);
-      print(resultList[0]);
+      print("photo[1]///////////");
+      print(resultList[1].identifier);
+      print("photo[2]///////////");
+      print(resultList[3].identifier);
+      print(resultList[3].toString());
       print("resultList[0]");
       String base64Encode(List<int> bytes) => base64.encode(bytes);
 
@@ -244,7 +251,8 @@ class _serviceFormState extends State<serviceForm> {
   TextEditingController observationAndWorkDone = new TextEditingController();
   TextEditingController spareUsed = new TextEditingController();
   TextEditingController otp = new TextEditingController();
-  bool _loading = false;
+//  bool _loading = false;
+  bool isLoading = false;
   bool otpText = false;
   TextEditingController outputRt2 = new TextEditingController();
   final BuyService buyservice = new BuyService();
@@ -261,32 +269,37 @@ class _serviceFormState extends State<serviceForm> {
       // 'Accept': 'application/json',
     };
     Map<String, String> body = {
-      "customername": customername.text,
-      "customerContact": customerContact.text,
+      "clientName": customername.text,
+      "clientContact": customerContact.text,
+
+      "clientAddress": widget.listData['address'],
       "engineername": engineername.text,
       "engineerContact": engineerContact.text,
+
       "callLogNumber": widget.listData['callLogId'],
       "fsrNumber": widget.listData['fsrNo'],
       "fsrDate": widget.listData['logDate'],
       "fsrTime": widget.listData['logTime'],
       "upsSerialNo": upsSerialNumber.text,
+      "upsSerialNo": widget.listData['serialNumber'],
+
       "batterySerialNo": widget.listData['batterySerialNo'],
       "observationAndWorkDone": observationAndWorkDone.text,
       "spareUsed": spareUsed.text,
       "ivrn": inputRn.text,
-      "ivrn2": inputRn2.text,
+      "ivry": inputRn2.text,
       "ivyn": inputYn.text,
-      "ivyn2": inputYn2.text,
+      "ivyb": inputYn2.text,
       "ivbn": inputBn.text,
-      "ivbn2": inputBn2.text,
+      "ivbr": inputBn2.text,
       "ivne": inputNe.text,
-      "ovrt": outputRt.text,
-      "ovrt2": outputRt2.text,
-      "ovnr": outputNr.text,
-      "ovns": outputNs.text,
-      "ovnt": outputNt.text,
+      "ovry": outputRt.text,
+      "ovbr": outputRt2.text,
+      "ovrn": outputNr.text,
+      "ovyn": outputNs.text,
+      "ovbn": outputNt.text,
       "ovne": outputNe.text,
-      "ovst": outputSt.text,
+      "ovyb": outputSt.text,
       "loadR": loadR.text,
       "loadB": loadB.text,
       "loadY": loadY.text,
@@ -295,9 +308,11 @@ class _serviceFormState extends State<serviceForm> {
       "bvA5": voltAfterFive.text,
       "bvA10": voltAfterTen.text,
       "siteCondition": _selectedLocation,
-      "sitePhoto1": base64images == null ? 'empty' :base64images[0]??' ',
-      "sitePhoto2": base64images == null ? 'empty' :base64images[1]??' ',
-      "sitePhoto3": base64images == null ? 'empty' : base64images[2]??' ',
+      "sitePhoto1": _selectedLocation=='Dust Free'||_selectedLocation=='AC'?'empty' :base64images[0]??' ',
+
+      "sitePhoto2": _selectedLocation=='Dust Free'||_selectedLocation=='AC'?'empty' :base64images[1]??' ',
+
+      "sitePhoto3": _selectedLocation=='Dust Free'||_selectedLocation=='AC'?'empty' :base64images[2]??' ',
       "status": _value
     };
 
@@ -317,15 +332,17 @@ class _serviceFormState extends State<serviceForm> {
         _failed();
       }
       setState(() {
-        _loading = true;
+//        _loading = true;
       });
-    } catch (e) {
+    }
+    catch (e) {
       setState(() {
-        _loading = false;
+//        _loading = false;
       });
-    } finally {
+    }
+    finally {
       setState(() {
-        _loading = false;
+//        _loading = false;
       });
     }
     print("dataaaaaaa");
@@ -354,7 +371,7 @@ class _serviceFormState extends State<serviceForm> {
     print("dataaaaaaa");
     print(data);
     setState(() {
-      _loading = true;
+//      _loading = true;
       if (data == 'fail') {
         Flushbar<bool>(
           mainButton: FlatButton(
@@ -479,6 +496,7 @@ class _serviceFormState extends State<serviceForm> {
         )..show(context);
         otpText = false;
       } else {
+//        _loading=false;
         otpText = true;
       }
 
@@ -1730,6 +1748,7 @@ class _serviceFormState extends State<serviceForm> {
                         TextFormField(
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
+
                           controller: spareUsed,
                           decoration: InputDecoration(
                             hintText: "Write something here....",
@@ -1839,7 +1858,11 @@ class _serviceFormState extends State<serviceForm> {
 
               SizedBox(height: 20),
         otpText==true?
-            _loading? CircularProgressIndicator():
+        isLoading
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            :
         Container(
           height: 60,
           width: double.infinity,
@@ -1850,6 +1873,9 @@ class _serviceFormState extends State<serviceForm> {
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
             onPressed: () {
+              setState(() {
+                isLoading = true;
+              });
               saveButton();
             },
           ),
