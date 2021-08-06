@@ -5,7 +5,6 @@ import 'config/AppConfig.dart';
 import 'package:cyberpower/service/login_service.dart';
 import 'package:cyberpower/util/http_exception_dialog.dart';
 import 'package:cyberpower/home.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -20,7 +19,17 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _rememberMe = true;
-  Flushbar flush;
+
+
+  snackBar(String  message) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   TextEditingController loginEmailController = new TextEditingController();
   TextEditingController loginPasswordController = new TextEditingController();
   bool _loading = false;
@@ -66,23 +75,8 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         print("Login Failed");
         _loading = false;
-        Flushbar<bool>(
-          mainButton: FlatButton(
-            onPressed: () {
-              flush.dismiss(true);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          borderRadius: 10,
-          message: "email or password is incorrect",
-          duration: Duration(seconds: 6),
-        )..show(context);
+
+      snackBar("email or password is incorrect");
       });
       print("userrrr");
       print(user);

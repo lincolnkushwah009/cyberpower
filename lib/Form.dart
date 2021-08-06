@@ -7,7 +7,6 @@ import 'config/AppConfig.dart';
 import 'package:cyberpower/service/login_service.dart';
 import 'service/buy_fragment_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
@@ -35,6 +34,15 @@ class serviceForm extends StatefulWidget {
 }
 
 class _serviceFormState extends State<serviceForm> {
+  snackBar(String  message) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   List<Asset> imagess = List<Asset>();
   List<String> base64images = List<String>();
   String _error = 'No Error Dectected';
@@ -114,7 +122,6 @@ class _serviceFormState extends State<serviceForm> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Flushbar flush;
 
   void _showDialog() {
     // flutter defined function
@@ -373,83 +380,19 @@ class _serviceFormState extends State<serviceForm> {
     setState(() {
 //      _loading = true;
       if (data == 'fail') {
-        Flushbar<bool>(
-          mainButton: FlatButton(
-            onPressed: () {
-              flush.dismiss(true);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          borderRadius: 10,
-          message: "OTP Generated Failed",
-          duration: Duration(seconds: 3),
-        )..show(context);
+        snackBar("OTP Generated Failed");
         otpText = false;
       }
       if (data == 'invalid') {
-        Flushbar<bool>(
-          mainButton: FlatButton(
-            onPressed: () {
-              flush.dismiss(true);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          borderRadius: 10,
-          message: "Invalid OTP",
-          duration: Duration(seconds: 3),
-        )..show(context);
+        snackBar("Invalid OTP");
         otpText = false;
       }
       if (data == 'negative') {
-        Flushbar<bool>(
-          mainButton: FlatButton(
-            onPressed: () {
-              flush.dismiss(true);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          borderRadius: 10,
-          message: " OTP was not generated. Generate OTP again.",
-          duration: Duration(seconds: 3),
-        )..show(context);
+        snackBar("OTP was not generated. Generate OTP again.");
         otpText = false;
       }
       if (data == 'expired') {
-        Flushbar<bool>(
-          mainButton: FlatButton(
-            onPressed: () {
-              flush.dismiss(true);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          borderRadius: 10,
-          message: "Entered OTP is expired. Generate a new OTP",
-          duration: Duration(seconds: 3),
-        )..show(context);
+        snackBar("Entered OTP is expired. Generate a new OTP");
         otpText = false;
       }
     });
@@ -477,23 +420,7 @@ class _serviceFormState extends State<serviceForm> {
     print(data);
     setState(() {
       if (data == 'invalid') {
-        Flushbar<bool>(
-          mainButton: FlatButton(
-            onPressed: () {
-              flush.dismiss(true);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          borderRadius: 10,
-          message: "Invalid OTP",
-          duration: Duration(seconds: 3),
-        )..show(context);
+        snackBar("Invalid OTP");
         otpText = false;
       } else {
 //        _loading=false;
@@ -501,43 +428,11 @@ class _serviceFormState extends State<serviceForm> {
       }
 
       if (data == 'negative') {
-        Flushbar<bool>(
-          mainButton: FlatButton(
-            onPressed: () {
-              flush.dismiss(true);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          borderRadius: 10,
-          message: " OTP was not generated. Generate OTP again.",
-          duration: Duration(seconds: 3),
-        )..show(context);
+        snackBar("OTP was not generated. Generate OTP again.");
         otpText = false;
       }
       if (data == 'expired') {
-        Flushbar<bool>(
-          mainButton: FlatButton(
-            onPressed: () {
-              flush.dismiss(true);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          borderRadius: 10,
-          message: "Entered OTP is expired. Generate a new OTP",
-          duration: Duration(seconds: 3),
-        )..show(context);
+       snackBar("Entered OTP is expired. Generate a new OTP");
         otpText = false;
       }
     });
@@ -576,23 +471,7 @@ class _serviceFormState extends State<serviceForm> {
           onPressed: () {
             generateOtp();
             if (_formKey.currentState.validate()) {
-              Flushbar<bool>(
-                mainButton: FlatButton(
-                  onPressed: () {
-                    flush.dismiss(true);
-                  },
-                  child: Text(
-                    'OK',
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.yellow,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                borderRadius: 10,
-                message: "OTP generated successfully",
-                duration: Duration(seconds: 6),
-              )..show(context);
+             snackBar("OTP generated successfully");
             }
           },
         ),
